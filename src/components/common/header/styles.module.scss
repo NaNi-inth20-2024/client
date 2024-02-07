@@ -1,0 +1,36 @@
+.header {
+    padding: 0 150px;
+    position: sticky;
+    display: flex;
+    justify-content: space-between;
+    background: black;
+}
+
+.header__textLogo {
+    color: #ffffff;
+    font-weight: 1000;
+    font-family: "Nosifer", sans-serif;
+}
+
+.header_textLogo_coloredFragment {
+    color: #b947ff;
+}
+
+.header__username {
+    color: #ffffff;
+    font-weight: 900;
+    font-size: 25px;
+    margin-right: 20px;
+    font-family: "Nosifer", sans-serif;
+}
+
+.header__menuContainer {
+    position: fixed;
+    margin-left: 450px;
+}
+
+.header__userData {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
