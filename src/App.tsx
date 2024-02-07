@@ -9,12 +9,14 @@ function App() {
         <>
             <BrowserRouter>
                 <Header />
-                <Routes>
-                    <Route path="/" element={<AuctionsPage />} />
-                    <Route path="/user" element={<UserPage />} />
-                    <Route path="/auth" element={<AuthPage />} />
-                    <Route path="/*" element={<AuctionsPage />} />
-                </Routes>
+                <main>
+                    <Routes>
+                        <Route path="/" element={<AuctionsPage />} />
+                        <Route path="/user" element={<UserPage />} />
+                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/*" element={<AuctionsPage />} />
+                    </Routes>
+                </main>
             </BrowserRouter>
         </>
     );
