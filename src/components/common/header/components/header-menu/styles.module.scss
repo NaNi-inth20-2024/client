@@ -1,0 +1,10 @@
+@use "src/styles/variables" as v;
+
+.headerMenu {
+    background-color: v.$color-white-a10;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 10px;
+}

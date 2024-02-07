@@ -1,0 +1,38 @@
+@use "variables" as v;
+
+@import url("https://fonts.googleapis.com/css2?&family=Nosifer&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu&display=swap");
+
+:root {
+    color-scheme: light dark;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+    font-family: "Ubuntu", sans-serif;
+    line-height: 1.5;
+    font-weight: normal;
+
+    display: flex;
+    flex-direction: column;
+    min-width: 320px;
+    width: 100%;
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background-color: v.$background;
+    color: v.$color-white;
+}
+
+main {
+    display: flex;
+    flex-grow: 1;
+}
+
+@media (prefers-color-scheme: light) {
+    // later
+}

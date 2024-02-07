@@ -1,0 +1,47 @@
+@use "src/styles/variables" as v;
+
+header {
+    padding: 10px 75px;
+    position: sticky;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__textLogo {
+    color: v.$color-white;
+    font-family: "Nosifer", sans-serif;
+    display: block;
+
+    .coloredFragment {
+        color: v.$color-purple;
+    }
+}
+
+.header__username {
+    color: v.$color-white;
+    font-size: v.$font-size-300;
+    font-family: "Nosifer", sans-serif;
+}
+
+.header__menuContainer {
+    position: absolute;
+    top: 100%;
+    right: 0;
+}
+
+.header__userData {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    object-fit: cover;
+}

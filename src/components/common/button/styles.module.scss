@@ -1,0 +1,12 @@
+@use "src/styles/variables" as v;
+
+.button {
+    text-align: center;
+
+    background-color: v.$color-purple;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 10px;
+
+    white-space: nowrap;
+}
