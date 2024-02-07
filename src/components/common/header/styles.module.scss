@@ -1,36 +1,47 @@
-.header {
-    padding: 0 150px;
+@use "src/styles/variables" as v;
+
+header {
+    padding: 10px 75px;
     position: sticky;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    background: black;
 }
 
 .header__textLogo {
-    color: #ffffff;
-    font-weight: 1000;
+    color: v.$color-white;
     font-family: "Nosifer", sans-serif;
-}
+    display: block;
 
-.header_textLogo_coloredFragment {
-    color: #b947ff;
+    .coloredFragment {
+        color: v.$color-purple;
+    }
 }
 
 .header__username {
-    color: #ffffff;
-    font-weight: 900;
-    font-size: 25px;
-    margin-right: 20px;
+    color: v.$color-white;
+    font-size: v.$font-size-300;
     font-family: "Nosifer", sans-serif;
 }
 
 .header__menuContainer {
-    position: fixed;
-    margin-left: 450px;
+    position: absolute;
+    top: 100%;
+    right: 0;
 }
 
 .header__userData {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.header__avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    object-fit: cover;
 }
