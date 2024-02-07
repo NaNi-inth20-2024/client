@@ -2,18 +2,16 @@ import { FC } from "react";
 import styles from "./styles.module.scss";
 
 type Props = {
+    classname?: string;
     name: string;
     onClick: () => void;
-    width?: number | string;
-    height?: number | string;
 };
 
-const Button: FC<Props> = ({ name, onClick, width, height }) => (
+const Button: FC<Props> = ({ classname, name, onClick }) => (
     <button
-        className={styles.button}
+        className={`${styles.button} ${classname}`}
         name={name}
         onClick={onClick}
-        style={{ width, height }}
     >
         {name}
     </button>
