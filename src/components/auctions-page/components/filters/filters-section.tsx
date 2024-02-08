@@ -74,7 +74,9 @@ const FiltersSection = ({ filters, setFilters }: Props) => {
             <span className={styles.separator}></span>
             <div className={styles.filter}>
                 <span>Date</span>
-                <div className={`${styles.filter__inputContainer} ${styles.filter__inputContainer_column}`}>
+                <div
+                    className={`${styles.filter__inputContainer} ${styles.filter__inputContainer_column}`}
+                >
                     <Input
                         name="dateFrom"
                         type="date"
