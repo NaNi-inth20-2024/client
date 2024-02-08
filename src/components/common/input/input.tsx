@@ -22,9 +22,8 @@ const Input: React.FC<Props> = ({
     onChange,
 }) => {
     return (
-        <div className={styles.inputContainer}>
+        <div className={`${styles.inputContainer} ${className}`}>
             <input
-                className={className}
                 type={type}
                 name={name}
                 placeholder={placeholder}
