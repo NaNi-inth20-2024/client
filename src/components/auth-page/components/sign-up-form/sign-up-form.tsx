@@ -11,8 +11,6 @@ const initialState: SignUpDto = {
     username: "",
     email: "",
     password: "",
-    firstName: "",
-    lastName: "",
 };
 
 const SignUpForm: FC = () => {
@@ -21,50 +19,39 @@ const SignUpForm: FC = () => {
         getFormDataChangeHandler<SignUpDto>(setSignUpData);
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <label>Username</label>
+        <form onSubmit={handleSubmit}>
+            <label>
+                Username
                 <Input
                     name="username"
                     type="text"
                     value={signInData.username}
                     onChange={handleFormDataChange("username")}
                 />
-                <label>Email</label>
+            </label>
+
+            <label>
+                Email
                 <Input
                     name="email"
                     type="email"
                     value={signInData.email}
                     onChange={handleFormDataChange("email")}
                 />
-                <label>First name</label>
-                <Input
-                    name="firstName"
-                    type="text"
-                    value={signInData.firstName}
-                    onChange={handleFormDataChange("firstName")}
-                />
-                <label>Last name</label>
-                <Input
-                    name="lastName"
-                    type="text"
-                    value={signInData.lastName}
-                    onChange={handleFormDataChange("lastName")}
-                />
-                <label>Password</label>
+            </label>
+
+            <label>
+                Password
                 <Input
                     name="password"
                     type="password"
                     value={signInData.password}
                     onChange={handleFormDataChange("password")}
                 />
-                <Button
-                    name="Sign Up"
-                    type="submit"
-                    classname="authSubmitButton"
-                />
-            </form>
-        </div>
+            </label>
+
+            <Button name="Sign Up" type="submit" classname="authSubmitButton" />
+        </form>
     );
 };
 

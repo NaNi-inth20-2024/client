@@ -20,29 +20,29 @@ const SignInForm: FC = () => {
         getFormDataChangeHandler<SignInDto>(setSignInData);
 
     return (
-        <div>
-            <form onSubmit={handleSubmit} className={styles.signInForm}>
-                <label className={styles.signInForm__label}>Email</label>
+        <form onSubmit={handleSubmit}>
+            <label>
+                Email
                 <Input
                     name="email"
                     type="email"
                     value={signInData.email}
                     onChange={handleFormDataChange("email")}
                 />
-                <label className={styles.signInForm__label}>Password</label>
+            </label>
+
+            <label>
+                Password
                 <Input
                     name="password"
                     type="password"
                     value={signInData.password}
                     onChange={handleFormDataChange("password")}
                 />
-                <Button
-                    name="Sign in"
-                    type="submit"
-                    classname="authSubmitButton"
-                />
-            </form>
-        </div>
+            </label>
+
+            <Button name="Sign in" type="submit" classname="authSubmitButton" />
+        </form>
     );
 };
 
