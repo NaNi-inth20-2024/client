@@ -1,0 +1,42 @@
+@use "src/styles/variables.scss" as v;
+
+.filterContainer {
+    display: flex;
+    flex-direction: column;
+    
+    width: 30%;
+    min-width: 200px;
+
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.filter {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+}
+
+.filter__inputContainer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.filter__inputContainer_column {
+    flex-direction: column;
+
+    * {
+        width: 100%;
+    }
+}
+
+.separator {
+    content: "";
+    width: 100%;
+    height: 1.5px;
+    background-color: v.$color-purple;
+    margin: 1rem 0;
+}
