@@ -4,7 +4,8 @@ import styles from "./styles.module.scss";
 
 type Props = {
     name: string;
-    type: "text" | "password" | "email" | "number";
+    type: "text" | "password" | "email" | "number" | "date" | "search";
+    value?: string | number;
     icon?: "search";
     placeholder?: string;
     className?: string;
@@ -14,6 +15,7 @@ type Props = {
 const Input: React.FC<Props> = ({
     name,
     type,
+    value,
     icon,
     placeholder,
     className,
@@ -27,6 +29,7 @@ const Input: React.FC<Props> = ({
                 name={name}
                 placeholder={placeholder}
                 onChange={onChange}
+                value={value}
             ></input>
             {icon && <span className="icon">o</span>}
         </div>
