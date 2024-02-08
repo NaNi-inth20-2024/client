@@ -3,3 +3,21 @@
     width: 100%;
     align-items: flex-start;
 }
+
+.auctionsContainer {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 0 1rem;
+    gap: 1rem;
+}
+
+.auctionsContainer__tools {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+
+    .searchInput {
+        flex-grow: 1;
+    }
+}
