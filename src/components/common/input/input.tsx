@@ -23,7 +23,7 @@ const Input: React.FC<Props> = ({
 }) => {
     return (
         <div
-            className={`${styles.inputContainer} ${className && styles[className]}`}
+            className={`${styles.inputContainer} ${className ? className : ""}`}
         >
             <input
                 type={type}

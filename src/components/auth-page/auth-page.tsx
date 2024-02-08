@@ -18,17 +18,15 @@ const AuthPage: FC = () => {
         );
 
     const Form = authTypeToAuthForm[authType];
-    const FormLogo = (
+    const FormLogo = () => (
         <h1 className={styles.authPage_formWrapper__formLogo}>
-            {
-                <span
-                    className={
-                        styles.authPage_formWrapper__formLogoColouredFragment
-                    }
-                >
-                    {authType.split(" ")[0]}
-                </span>
-            }
+            <span
+                className={
+                    styles.authPage_formWrapper__formLogoColouredFragment
+                }
+            >
+                Sign{" "}
+            </span>
             {authType.split(" ")[1]}
         </h1>
     );
@@ -36,7 +34,7 @@ const AuthPage: FC = () => {
     return (
         <div className={styles.authPage}>
             <div className={styles.authPage__formWrapper}>
-                {FormLogo}
+                <FormLogo />
                 <Form />
                 <p className={styles.authPage__formWrapper__formSwapParagraph}>
                     Don't have an account?

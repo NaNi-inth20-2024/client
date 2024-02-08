@@ -10,11 +10,30 @@
 }
 
 .authPage__formWrapper {
-    width: 30vw;
-    padding: 40px;
-    background: v.$color-white-a25;
+    width: 40%;
+    min-width: 400px;
+    max-width: 475px;
+    padding: 50px;
+    background: v.$color-white-a5;
+    border: 1.5px solid v.$color-white-a25;
     border-radius: 10px;
-    flex-grow: 0.5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        label {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+    }
 }
 
 .authPage_formWrapper__formLogo {
@@ -24,14 +43,6 @@
 
 .authPage_formWrapper__formLogoColouredFragment {
     color: v.$color-purple;
-}
-
-.authPage__formWrapper__authPage__formWrapper {
-    text-align: center;
-}
-
-.authPage__formWrapper__authPage__formWrapper__formSwapParagraph {
-    margin-top: 20px;
 }
 
 .authPage__formWrapper__authPage__formWrapper__formSwapParagraph_label {
