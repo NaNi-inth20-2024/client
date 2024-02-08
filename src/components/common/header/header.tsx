@@ -8,10 +8,7 @@ const Header: FC = () => {
     return (
         <header>
             <h1 className={styles.header__textLogo}>
-                <span className={styles.coloredFragment}>
-                    PURPLE
-                </span>{" "}
-                MARKET
+                <span className={styles.coloredFragment}>PURPLE</span> MARKET
             </h1>
             <div className={styles.header__userData}>
                 <img

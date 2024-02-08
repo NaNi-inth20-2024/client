@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 type Props = {
     classname?: string;
     name: string;
-    onClick: () => void;
+    onClick?: () => void;
 };
 
 const Button: FC<Props> = ({ classname, name, onClick }) => (
