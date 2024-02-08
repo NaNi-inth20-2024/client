@@ -22,7 +22,9 @@ const Input: React.FC<Props> = ({
     onChange,
 }) => {
     return (
-        <div className={`${styles.inputContainer} ${className}`}>
+        <div
+            className={`${styles.inputContainer} ${className && styles[className]}`}
+        >
             <input
                 type={type}
                 name={name}
