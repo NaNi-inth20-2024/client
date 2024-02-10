@@ -37,8 +37,6 @@ const Input: React.FC<Props> = ({
                     placeholder={placeholder}
                     onChange={onChange}
                     value={value}
-                    min={min}
-                    max={max}
                 ></textarea>
             ) : (
                 <input
