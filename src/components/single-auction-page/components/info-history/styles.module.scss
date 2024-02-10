@@ -1,0 +1,39 @@
+@use "src/styles/variables.scss" as v;
+
+.infoHistory {
+    ul {
+        list-style: none;
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: v.$color-black-a25;
+
+            span {
+                font-weight: bold;
+                color: v.$color-purple;
+            }
+        }
+    }
+
+    ul li:nth-child(odd) {
+        background-color: v.$color-white-a10;
+    }
+
+    ul li:last-child {
+        border-radius: 0 0 10px 10px;
+    }
+}
+
+.title {
+    text-align: center;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    background-color: v.$color-purple;
+    font-weight: bold;
+}
+
+.empty {
+    color: v.$color-white-a25;
+}
