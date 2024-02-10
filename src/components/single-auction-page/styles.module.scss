@@ -11,7 +11,7 @@
 .auction__info {
     display: flex;
     flex-direction: column;
-    max-width: 600px;
+    max-width: calc(100% - 300px);
     gap: 10px;
     border: 1px solid black;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
@@ -55,6 +55,8 @@
     flex-direction: column;
     gap: 20px;
     flex-grow: 1;
+    min-width: 300px;
+    max-width: 500px;
 }
 
 .auction__bidInfoHeader {
