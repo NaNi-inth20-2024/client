@@ -73,3 +73,19 @@
 .button_red {
     background-color: v.$color-red;
 }
+
+.modal_closed {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.edit_modal__content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.edit_modal__title {
+    font-size: v.$font-size-200;
+    font-weight: 700;
+}

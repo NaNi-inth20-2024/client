@@ -1,10 +1,15 @@
+import { useState } from "react";
 import Button from "../common/button/button";
+import Input from "../common/input/input";
+import Modal from "../common/modal/modal";
 import ImageScroller from "./components/image-scroller/image-scroller";
 import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
 
 const SingleAuctionPage = () => {
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
     return (
         <div className={styles.singleAuctionPage}>
             <div className={styles.auction__info}>
@@ -39,14 +44,15 @@ const SingleAuctionPage = () => {
                     </p>
                 </div>
                 <div className={styles.auction__infoActions}>
-                    <Button name="Edit informaton" />
+                    <Button name="Edit informaton" onClick={() => setIsEditModalOpen(true)} />
                     <Button classname={styles.button_red} name="End auction" />
                 </div>
             </div>
             <div className={styles.auction__bidInfo}>
                 <div className={styles.auction__bidInfoHeader}>
                     <span>
-                        Your bid: <span className={styles.highlighted}>1000$</span>
+                        Your bid:{" "}
+                        <span className={styles.highlighted}>1000$</span>
                     </span>
                     <Button name="+ Place a bid" />
                 </div>
@@ -65,6 +71,27 @@ const SingleAuctionPage = () => {
                     title="Top bids"
                 />
             </div>
+            <Modal className={isEditModalOpen ? "" : styles.modal_closed} onClose={() => setIsEditModalOpen(false)}>
+                <div className={styles.edit_modal__content}>
+                    <span className={styles.edit_modal__title}>Edit product information</span>
+                    <label >
+                        <span>Product name</span>
+                        <Input
+                            name="product-name"
+                            type="text"
+                        />
+                    </label>
+                    <label>
+                        <span>Product description</span>
+                        <Input
+                            name="product-description"
+                            type="text"
+                            istextArea
+                        />
+                    </label>
+                    <Button name="Save" />
+                </div>
+            </Modal>
         </div>
     );
 };
