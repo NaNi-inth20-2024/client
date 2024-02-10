@@ -1,0 +1,37 @@
+@use "src/styles/variables.scss" as *;
+
+.imageScroller {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 20px;
+    background-color: $color-black-a25;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.imageScroller__currentImage {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+}
+
+.imageScroller__scroller {
+    display: flex;
+    overflow-x: scroll;
+    width: 100%;
+    padding: 20px;
+    background-color: $color-white-a5;
+    border: 1px solid $color-white-a25;
+    border-radius: 10px;
+}
+
+.imageScroller__scrollerImage {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}

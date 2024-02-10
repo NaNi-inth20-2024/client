@@ -1,0 +1,73 @@
+@use "src/styles/variables.scss" as v;
+
+.singleAuctionPage {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.auction__info {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    gap: 10px;
+    border: 1px solid black;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+
+    p {
+        text-align: justify;
+    }
+}
+
+.auction__infoDetailsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+
+    span {
+        color: v.$color-purple;
+    }
+}
+
+.auction__infoDetailsSeller {
+    display: flex;
+    align-items: center;
+    font-weight: 700;
+
+    span {
+        color: v.$color-purple;
+        margin-left: 5px;
+    }
+}
+
+.auction__infoActions {
+    display: flex;
+    gap: 10px;
+}
+
+.auction__bidInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex-grow: 1;
+}
+
+.auction__bidInfoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.highlighted {
+    color: v.$color-purple;
+    font-weight: 700;
+}
+
+.button_red {
+    background-color: v.$color-red;
+}

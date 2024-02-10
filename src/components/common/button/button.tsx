@@ -10,7 +10,7 @@ type Props = {
 
 const Button: FC<Props> = ({ classname, name, type, onClick }) => (
     <button
-        className={`${styles.button} ${classname && styles[classname]}`}
+        className={`${styles.button} ${classname && classname}`}
         name={name}
         type={type}
         onClick={onClick}
