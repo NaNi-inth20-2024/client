@@ -1,3 +1,5 @@
+@use "src/styles/variables.scss" as v;
+
 .auctionsPage {
     display: flex;
     width: 100%;
@@ -20,4 +22,10 @@
     .searchInput {
         flex-grow: 1;
     }
+}
+
+.createModal {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
