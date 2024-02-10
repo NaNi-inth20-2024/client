@@ -1,55 +1,27 @@
 import { type Filters } from "../../../../common/types/types";
 import Button from "../../../common/button/button";
 import Input from "../../../common/input/input";
+import { getInputDataChangeHandler } from "@/common/utils/forms.utils";
 
 import styles from "./styles.module.scss";
 
 type Props = {
     filters: Filters;
     setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+    onApplyFilters: () => void;
 };
 
-const FiltersSection = ({ filters, setFilters }: Props) => {
-    const handlePriceFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFilters({
-            ...filters,
-            price: {
-                ...filters.price,
-                from: e.target.valueAsNumber,
-            },
-        });
-    };
+const FiltersSection = ({ filters, setFilters, onApplyFilters }: Props) => {
+    const filtersValueChangeHandler =
+        getInputDataChangeHandler<Filters>(setFilters);
 
-    const handlePriceToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFilters({
-            ...filters,
-            price: {
-                ...filters.price,
-                to: e.target.valueAsNumber,
-            },
-        });
-    };
+    const fromPriceMaximumBound = String(
+        filters?.priceTo ? filters?.priceTo - 1 : 0,
+    );
 
-    const handleDateFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFilters({
-            ...filters,
-            date: {
-                ...filters.date,
-                from: e.target.value,
-            },
-        });
-    };
-
-    const handleDateToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFilters({
-            ...filters,
-            date: {
-                ...filters.date,
-                to: e.target.value,
-            },
-        });
-    };
-
+    const toPriceMinimumBound = String(
+        filters?.priceFrom ? filters?.priceFrom + 1 : 1,
+    );
     return (
         <div className={styles.filterContainer}>
             <div className={styles.filter}>
@@ -58,17 +30,19 @@ const FiltersSection = ({ filters, setFilters }: Props) => {
                     <Input
                         name="priceFrom"
                         type="number"
-                        value={filters.price.from}
-                        onChange={handlePriceFromChange}
+                        value={filters?.priceFrom ?? 0}
+                        max={fromPriceMaximumBound}
+                        min={"0"}
+                        onChange={filtersValueChangeHandler("priceFrom")}
                     />
                     <span>-</span>
                     <Input
                         name="priceTo"
                         type="number"
-                        value={filters.price.to}
-                        onChange={handlePriceToChange}
+                        value={filters?.priceTo ?? 0}
+                        min={toPriceMinimumBound}
+                        onChange={filtersValueChangeHandler("priceTo")}
                     />
-                    <Button name="Ok" />
                 </div>
             </div>
             <span className={styles.separator}></span>
@@ -80,16 +54,18 @@ const FiltersSection = ({ filters, setFilters }: Props) => {
                     <Input
                         name="dateFrom"
                         type="date"
-                        value={filters.date.from}
-                        onChange={handleDateFromChange}
+                        value={filters?.dateFrom ?? ""}
+                        max={filters?.dateTo ?? ""}
+                        onChange={filtersValueChangeHandler("dateFrom")}
                     />
                     <Input
                         name="dateTo"
                         type="date"
-                        value={filters.date.to}
-                        onChange={handleDateToChange}
+                        value={filters?.dateTo ?? ""}
+                        min={filters?.dateFrom ?? ""}
+                        onChange={filtersValueChangeHandler("dateTo")}
                     />
-                    <Button name="Ok" />
+                    <Button name="Apply filters" onClick={onApplyFilters} />
                 </div>
             </div>
         </div>

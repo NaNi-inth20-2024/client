@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import type { SignUpDto } from "../../../../common/types/types";
 import {
-    getFormDataChangeHandler,
+    getInputDataChangeHandler,
     handleSubmit,
-} from "../../shared/authFormsEventHandlers";
+} from "../../../../common/utils/forms.utils";
 import Input from "../../../common/input/input";
 import Button from "../../../common/button/button";
 
@@ -16,7 +16,7 @@ const initialState: SignUpDto = {
 const SignUpForm: FC = () => {
     const [signInData, setSignUpData] = useState<SignUpDto>(initialState);
     const handleFormDataChange =
-        getFormDataChangeHandler<SignUpDto>(setSignUpData);
+        getInputDataChangeHandler<SignUpDto>(setSignUpData);
 
     return (
         <form onSubmit={handleSubmit}>

@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, FormEvent } from "react";
 
-const getFormDataChangeHandler =
+const getInputDataChangeHandler =
     <T>(setValue: Dispatch<SetStateAction<T>>) =>
     (property: keyof T) =>
     (event: ChangeEvent<HTMLInputElement>) =>
@@ -13,4 +13,4 @@ const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 };
 
-export { getFormDataChangeHandler, handleSubmit };
+export { getInputDataChangeHandler, handleSubmit };

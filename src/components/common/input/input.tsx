@@ -9,6 +9,8 @@ type Props = {
     icon?: "search";
     placeholder?: string;
     className?: string;
+    min?: string;
+    max?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -19,6 +21,8 @@ const Input: React.FC<Props> = ({
     icon,
     placeholder,
     className,
+    min,
+    max,
     onChange,
 }) => {
     return (
@@ -31,6 +35,8 @@ const Input: React.FC<Props> = ({
                 placeholder={placeholder}
                 onChange={onChange}
                 value={value}
+                min={min}
+                max={max}
             ></input>
             {icon && <span className="icon">o</span>}
         </div>
