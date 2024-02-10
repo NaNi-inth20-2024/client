@@ -3,12 +3,12 @@ import styles from "./styles.module.scss";
 type Props = {
     children: React.ReactNode;
     onClose: () => void;
-    className?: string;
+    visible: boolean;
 };
 
-const Modal: React.FC<Props> = ({ children, onClose, className }: Props) => {
+const Modal: React.FC<Props> = ({ children, onClose, visible }: Props) => {
     return (
-        <div className={`${styles.modal__backdrop} ${className}`}>
+        <div className={`${styles.modal__backdrop} ${visible ? "" : styles.closed}`}>
             <div className={styles.modal}>
                 <div className={styles.modalContent}>
                     <span className={styles.close} onClick={onClose}>

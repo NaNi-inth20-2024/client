@@ -81,7 +81,7 @@ const SingleAuctionPage = () => {
                 </div>
             </div>
             <Modal
-                className={isEditModalOpen ? "" : styles.modal_closed}
+                visible={isEditModalOpen}
                 onClose={() => setIsEditModalOpen(false)}
             >
                 <div className={styles.edit_modal__content}>
@@ -101,7 +101,7 @@ const SingleAuctionPage = () => {
                 </div>
             </Modal>
             <Modal
-                className={isPlaceBidModalOpen ? "" : styles.modal_closed}
+                visible={isPlaceBidModalOpen}
                 onClose={() => setIsPlaceBidModalOpen(false)}
             >
                 <div className={styles.edit_modal__content}>
