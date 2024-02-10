@@ -1,54 +1,63 @@
 import { FC } from "react";
 import Input from "../common/input/input";
-
 import { useState } from "react";
-
-import styles from "./styles.module.scss";
 import FiltersSection from "./components/filters/filters-section";
-import { ActiveFilters, Auction, Filters } from "../../common/types/types";
+import { Filters } from "../../common/types/types";
 import Button from "../common/button/button";
 import Auctions from "./components/auctions/auctions";
+import { useGetAuctionsQuery } from "@/store/auctions.api";
+
+import styles from "./styles.module.scss";
+import { getJoinedQueryParams } from "@/common/utils/requests.utils";
+
+const mapAuctionsFiltersToQueryNames: (
+    filter: Filters,
+) => Record<string, string | number | null> = (filter: Filters) => {
+    const filtersNamesToQueryNames: Record<keyof Filters, string> = {
+        priceFrom: "initial_price__gt",
+        priceTo: "initial_price__lt",
+        dateFrom: "end_time__gt",
+        dateTo: "end_time__lt",
+        search: "search",
+    };
+
+    return Object.fromEntries(
+        Object.entries(filter).map(([name, value]) => [
+            filtersNamesToQueryNames[name as keyof Filters],
+            value,
+        ]),
+    );
+};
 
 const AuctionsPage: FC = () => {
-    const [filters, setFilters] = useState<Filters>({
-        price: {
-            from: 0,
-            to: 0,
-        },
-        date: {
-            from: "",
-            to: "",
-        },
+    const [compiledFilters, setCompiledFilters] = useState<string>("");
+    const [activeFilters, setActiveFilters] = useState<Filters>({
+        priceFrom: null,
+        priceTo: null,
+        dateFrom: null,
+        dateTo: null,
+        search: null,
     });
 
-    const [auctions] = useState<Auction[]>([
-        {
-            id: "1",
-            name: "Auction 1",
-            price: 100,
-            date: "2021-01-01",
-            img: "https://via.placeholder.com/200",
-            description: "Description 1",
-        },
-        {
-            id: "2",
-            name: "Auction 2",
-            price: 100,
-            date: "2021-01-01",
-            img: "https://via.placeholder.com/200",
-            description: "Description 1",
-        },
-    ]);
+    const {
+        data: auctions,
+        isLoading,
+        refetch,
+    } = useGetAuctionsQuery(compiledFilters);
 
-    const [activeFilters, setActiveFilters] = useState<ActiveFilters>({
-        price: null,
-        date: null,
-        activeSearch: null,
-    });
+    const handleFiltersApplication = () => {
+        setCompiledFilters(
+            getJoinedQueryParams(mapAuctionsFiltersToQueryNames(activeFilters)),
+        );
+    };
 
     return (
         <div className={styles.auctionsPage}>
-            <FiltersSection filters={filters} setFilters={setFilters} />
+            <FiltersSection
+                filters={activeFilters}
+                setFilters={setActiveFilters}
+                onApplyFilters={handleFiltersApplication}
+            />
             <div className={styles.auctionsContainer}>
                 <div className={styles.auctionsContainer__tools}>
                     <Input
@@ -60,7 +69,7 @@ const AuctionsPage: FC = () => {
                     />
                     <Button name="+ Create new auction" />
                 </div>
-                <Auctions auctions={auctions} />
+                <Auctions auctions={auctions || []} />
             </div>
         </div>
     );

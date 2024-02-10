@@ -1,13 +1,11 @@
 import { FC, useState } from "react";
 import type { SignInDto } from "../../../../common/types/types";
 import {
-    getFormDataChangeHandler,
+    getInputDataChangeHandler,
     handleSubmit,
-} from "../../shared/authFormsEventHandlers";
+} from "../../../../common/utils/forms.utils";
 import Input from "../../../common/input/input";
 import Button from "../../../common/button/button";
-
-import styles from "./styles.module.scss";
 
 const initialState: SignInDto = {
     email: "",
@@ -17,7 +15,7 @@ const initialState: SignInDto = {
 const SignInForm: FC = () => {
     const [signInData, setSignInData] = useState<SignInDto>(initialState);
     const handleFormDataChange =
-        getFormDataChangeHandler<SignInDto>(setSignInData);
+        getInputDataChangeHandler<SignInDto>(setSignInData);
 
     return (
         <form onSubmit={handleSubmit}>
