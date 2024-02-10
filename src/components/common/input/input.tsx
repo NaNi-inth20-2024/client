@@ -11,7 +11,8 @@ type Props = {
     className?: string;
     min?: string;
     max?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+    istextArea?: boolean;
 };
 
 const Input: React.FC<Props> = ({
@@ -24,20 +25,32 @@ const Input: React.FC<Props> = ({
     min,
     max,
     onChange,
-}) => {
+    istextArea,
+}: Props) => {
     return (
         <div
             className={`${styles.inputContainer} ${className ? className : ""}`}
         >
-            <input
-                type={type}
-                name={name}
-                placeholder={placeholder}
-                onChange={onChange}
-                value={value}
-                min={min}
-                max={max}
-            ></input>
+            {istextArea ? (
+                <textarea
+                    name={name}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    value={value}
+                    min={min}
+                    max={max}
+                ></textarea>
+            ) : (
+                <input
+                    type={type}
+                    name={name}
+                    placeholder={placeholder}
+                    onChange={onChange}
+                    value={value}
+                    min={min}
+                    max={max}
+                ></input>
+            )}
             {icon && <span className="icon">o</span>}
         </div>
     );
