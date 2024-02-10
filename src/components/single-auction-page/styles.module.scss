@@ -5,6 +5,7 @@
     width: 100%;
     justify-content: center;
     align-items: flex-start;
+    gap: 20px;
 }
 
 .auction__info {
@@ -50,7 +51,21 @@
 }
 
 .auction__bidInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
     flex-grow: 1;
+}
+
+.auction__bidInfoHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.highlighted {
+    color: v.$color-purple;
+    font-weight: 700;
 }
 
 .button_red {

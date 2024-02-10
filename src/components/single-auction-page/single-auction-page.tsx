@@ -1,5 +1,6 @@
 import Button from "../common/button/button";
 import ImageScroller from "./components/image-scroller/image-scroller";
+import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
 
@@ -42,7 +43,28 @@ const SingleAuctionPage = () => {
                     <Button classname={styles.button_red} name="End auction" />
                 </div>
             </div>
-            <div className={styles.auction__bidInfo}>zaza</div>
+            <div className={styles.auction__bidInfo}>
+                <div className={styles.auction__bidInfoHeader}>
+                    <span>
+                        Your bid: <span className={styles.highlighted}>1000$</span>
+                    </span>
+                    <Button name="+ Place a bid" />
+                </div>
+                <InfoHistory
+                    actions={[
+                        { username: "John Doe", action: "Placed 1000$" },
+                        { username: "John Doe", action: "Placed 1000$" },
+                    ]}
+                    title="Bid history"
+                />
+                <InfoHistory
+                    actions={[
+                        { username: "John Doe", action: "1000$" },
+                        { username: "John Doe", action: "1000$" },
+                    ]}
+                    title="Top bids"
+                />
+            </div>
         </div>
     );
 };
