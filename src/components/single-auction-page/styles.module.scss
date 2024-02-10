@@ -83,6 +83,12 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
 }
 
 .edit_modal__title {

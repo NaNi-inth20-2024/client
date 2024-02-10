@@ -9,6 +9,7 @@ import styles from "./styles.module.scss";
 
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isPlaceBidModalOpen, setIsPlaceBidModalOpen] = useState(false);
 
     return (
         <>
@@ -61,7 +62,7 @@ const SingleAuctionPage = () => {
                             Your bid:{" "}
                             <span className={styles.highlighted}>1000$</span>
                         </span>
-                        <Button name="+ Place a bid" />
+                        <Button name="+ Place a bid" onClick={() => setIsPlaceBidModalOpen(true)} />
                     </div>
                     <InfoHistory
                         actions={[
@@ -84,9 +85,6 @@ const SingleAuctionPage = () => {
                 onClose={() => setIsEditModalOpen(false)}
             >
                 <div className={styles.edit_modal__content}>
-                    <span className={styles.edit_modal__title}>
-                        Edit product information
-                    </span>
                     <label>
                         <span>Product name</span>
                         <Input name="product-name" type="text" />
@@ -100,6 +98,18 @@ const SingleAuctionPage = () => {
                         />
                     </label>
                     <Button name="Save" />
+                </div>
+            </Modal>
+            <Modal
+                className={isPlaceBidModalOpen ? "" : styles.modal_closed}
+                onClose={() => setIsPlaceBidModalOpen(false)}
+            >
+                <div className={styles.edit_modal__content}>
+                    <label>
+                        <span>Your bid</span>
+                        <Input name="your-bid" type="number" />
+                    </label>
+                    <Button name="Place a bid" />
                 </div>
             </Modal>
         </>
