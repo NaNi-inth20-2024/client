@@ -16,6 +16,11 @@ const AuthPage: FC = () => {
         setAuthType((prevState) =>
             prevState === "Sign In" ? "Sign Up" : "Sign In",
         );
+    const authSuggestionType = authType === "Sign Up" ? "Sign In" : "Sign Up";
+    const authSuggestionText =
+        authSuggestionType === "Sign Up"
+            ? "Don't have an account?"
+            : "Already have an account?";
 
     const Form = authTypeToAuthForm[authType];
     const FormLogo = () => (
@@ -37,14 +42,14 @@ const AuthPage: FC = () => {
                 <FormLogo />
                 <Form />
                 <p className={styles.authPage__formWrapper__formSwapParagraph}>
-                    Don't have an account?
+                    {authSuggestionText}
                     <span
                         onClick={handleAuthTypeSwap}
                         className={
                             styles.authPage__formWrapper__authPage__formWrapper__formSwapParagraph_label
                         }
                     >
-                        {authType}
+                        {authSuggestionType}
                     </span>
                 </p>
             </div>

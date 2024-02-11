@@ -1,22 +1,56 @@
-import { FC, useState } from "react";
-import type { SignUpDto } from "../../../../common/types/types";
+import { FC, useCallback, useState } from "react";
+import {
+    isSuccessfulResponseDto,
+    type SignUpRequest,
+    type AuthResponse,
+} from "../../../../common/types/types";
 import {
     getInputDataChangeHandler,
     handleSubmit,
 } from "../../../../common/utils/forms.utils";
 import Input from "../../../common/input/input";
 import Button from "../../../common/button/button";
+import { authApi, useSignUpMutation } from "@/store/auth.api";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES, TOKEN_NAME } from "@/common/enums/enums";
+import { localStorageService } from "@/services/services";
+import { useAppDispatch } from "@/store/hooks";
 
-const initialState: SignUpDto = {
+const initialState: SignUpRequest = {
     username: "",
     email: "",
     password: "",
 };
 
 const SignUpForm: FC = () => {
-    const [signInData, setSignUpData] = useState<SignUpDto>(initialState);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [signUpData, setSignUpData] = useState<SignUpRequest>(initialState);
+    const [signUp] = useSignUpMutation();
+
     const handleFormDataChange =
-        getInputDataChangeHandler<SignUpDto>(setSignUpData);
+        getInputDataChangeHandler<SignUpRequest>(setSignUpData);
+
+    const handleSignUp = useCallback(async () => {
+        const result = await signUp(signUpData);
+
+        if (!isSuccessfulResponseDto<AuthResponse>(result)) {
+            return;
+        }
+
+        localStorageService.set(TOKEN_NAME.ACCESS, result.data.access);
+        localStorageService.set(TOKEN_NAME.REFRESH, result.data.refresh);
+
+        dispatch(
+            authApi.util.upsertQueryData(
+                "revalidate",
+                undefined,
+                result.data.user,
+            ),
+        );
+
+        navigate(APP_ROUTES.AUCTIONS);
+    }, [dispatch, signUp, signUpData, navigate]);
 
     return (
         <form onSubmit={handleSubmit}>
@@ -25,7 +59,7 @@ const SignUpForm: FC = () => {
                 <Input
                     name="username"
                     type="text"
-                    value={signInData.username}
+                    value={signUpData.username}
                     onChange={handleFormDataChange("username")}
                 />
             </label>
@@ -35,7 +69,7 @@ const SignUpForm: FC = () => {
                 <Input
                     name="email"
                     type="email"
-                    value={signInData.email}
+                    value={signUpData.email}
                     onChange={handleFormDataChange("email")}
                 />
             </label>
@@ -45,12 +79,17 @@ const SignUpForm: FC = () => {
                 <Input
                     name="password"
                     type="password"
-                    value={signInData.password}
+                    value={signUpData.password}
                     onChange={handleFormDataChange("password")}
                 />
             </label>
 
-            <Button name="Sign Up" type="submit" classname="authSubmitButton" />
+            <Button
+                name="Sign Up"
+                type="submit"
+                classname="authSubmitButton"
+                onClick={handleSignUp}
+            />
         </form>
     );
 };

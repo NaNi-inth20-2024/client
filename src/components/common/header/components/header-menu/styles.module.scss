@@ -17,8 +17,9 @@
     gap: 10px;
     display: flex;
     align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
-
 
 .headerMenu__username {
     color: v.$color-purple;
@@ -40,6 +41,10 @@
     animation: fadeIn 0.3s;
 }
 
+.headerMenu__button:hover {
+    background-color: v.$color-white-a10;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -48,5 +53,3 @@
         opacity: 1;
     }
 }
-
-
