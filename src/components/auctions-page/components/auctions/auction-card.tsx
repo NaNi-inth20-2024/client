@@ -10,7 +10,17 @@ type Props = {
 const AuctionCard = ({ auction }: Props) => {
     return (
         <div className={styles.auctionCard}>
-            <img src={`${API.MEDIA_URL}${auction.images[0]?.photo}`} alt={auction.title} />
+            {auction.images[0]?.photo ? (
+                <img
+                    src={`${API.MEDIA_URL}${auction.images[0]?.photo}`}
+                    alt={auction.title}
+                />
+            ) : (
+                <img
+                    src="https://via.placeholder.com/150"
+                    alt={auction.title}
+                />
+            )}
             <span className={styles.auctionCard__name}>{auction.title}</span>
             <span>{auction.initial_price} $</span>
         </div>
