@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import HeaderMenu from "./components/header-menu/header-menu";
 import { localStorageService } from "@/services/services";
 import { useRevalidateQuery, authApi } from "@/store/auth.api";
@@ -16,10 +16,6 @@ const Header: FC = () => {
         localStorageService.reset();
         setIsMenuOpen(false);
     };
-
-    useEffect(() => {
-        console.log(userData);
-    }, [userData]);
 
     return (
         <header>

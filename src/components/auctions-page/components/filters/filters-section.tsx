@@ -1,26 +1,25 @@
 import { type Filters } from "../../../../common/types/types";
 import Button from "../../../common/button/button";
 import Input from "../../../common/input/input";
-import { getInputDataChangeHandler } from "@/common/utils/forms.utils";
 
 import styles from "./styles.module.scss";
 
 type Props = {
     filters: Filters;
     setFilters: React.Dispatch<React.SetStateAction<Filters>>;
+    filtersValueChangeHandler: (
+        property: keyof Filters,
+    ) => (event: React.ChangeEvent<HTMLInputElement>) => void;
     onApplyFilters: () => void;
     device?: "mobile" | "desktop";
 };
 
 const FiltersSection = ({
     filters,
-    setFilters,
+    filtersValueChangeHandler,
     onApplyFilters,
     device = "desktop",
 }: Props) => {
-    const filtersValueChangeHandler =
-        getInputDataChangeHandler<Filters>(setFilters);
-
     const fromPriceMaximumBound = String(
         filters?.priceTo ? filters?.priceTo - 1 : 0,
     );
@@ -75,7 +74,11 @@ const FiltersSection = ({
                     />
                 </div>
             </div>
-            <Button name="Apply filters" onClick={onApplyFilters} classname={styles.filter__button} />
+            <Button
+                name="Apply filters"
+                onClick={onApplyFilters}
+                classname={styles.filter__button}
+            />
         </div>
     );
 };

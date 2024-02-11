@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Auction, CreateAuctionDto } from "@/common/types/auction.type";
-import { API, API_ROUTES, HTTP_METHODS } from "@/common/enums/enums";
+import {
+    API,
+    API_ROUTES,
+    HTTP_METHODS,
+    TOKEN_NAME,
+} from "@/common/enums/enums";
+import { localStorageService } from "@/services/services";
 
 const auctionsApi = createApi({
     reducerPath: "auctionsApi",
@@ -19,15 +25,13 @@ const auctionsApi = createApi({
         }),
         createAuction: builder.mutation<Auction, CreateAuctionDto>({
             query: (body: CreateAuctionDto) => ({
-                url: `${API_ROUTES.AUCTIONS}`,
+                url: `${API_ROUTES.AUCTIONS}/`,
                 method: HTTP_METHODS.POST,
                 body,
+                headers: {
+                    Authorization: `Bearer ${localStorageService.getByKey(TOKEN_NAME.ACCESS)}`,
+                },
             }),
-            transformResponse: (results: Auction, meta) => {
-                console.log(results, meta);
-
-                return results;
-            },
         }),
     }),
 });

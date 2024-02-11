@@ -25,11 +25,6 @@ const authApi = createApi({
                 method: HTTP_METHODS.POST,
                 body,
             }),
-            transformResponse: (results: AuthResponse, meta) => {
-                console.log(results, meta);
-
-                return results;
-            },
             invalidatesTags: ["User"],
         }),
 
@@ -39,11 +34,6 @@ const authApi = createApi({
                 method: HTTP_METHODS.POST,
                 body,
             }),
-            transformResponse: (results: AuthResponse, meta) => {
-                console.log(results, meta);
-
-                return results;
-            },
             invalidatesTags: ["User"],
         }),
 
@@ -54,10 +44,6 @@ const authApi = createApi({
                     Authorization: `Bearer ${localStorageService.getByKey(TOKEN_NAME.ACCESS)}`,
                 },
             }),
-            transformResponse: (results: UserData, meta) => {
-                console.log(results, meta);
-                return results;
-            },
             providesTags: ["User"],
         }),
     }),
