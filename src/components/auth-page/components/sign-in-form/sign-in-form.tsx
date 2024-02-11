@@ -23,7 +23,9 @@ const initialState: SignInRequest = {
 const SignInForm: FC = () => {
     const navigate = useNavigate();
     const [signInData, setSignInData] = useState<SignInRequest>(initialState);
-    const [signIn] = useSignInMutation();
+    const [signIn] = useSignInMutation({
+        fixedCacheKey: "shared-sign-in-data",
+    });
 
     const handleFormDataChange =
         getInputDataChangeHandler<SignInRequest>(setSignInData);

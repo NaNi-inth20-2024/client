@@ -23,10 +23,14 @@ const initialState: SignUpRequest = {
 };
 
 const SignUpForm: FC = () => {
-    const [signUpData, setSignUpData] = useState<SignUpRequest>(initialState);
-    const [signUp] = useSignUpMutation();
-    const [signIn] = useSignInMutation();
     const navigate = useNavigate();
+    const [signUpData, setSignUpData] = useState<SignUpRequest>(initialState);
+    const [signIn] = useSignInMutation({
+        fixedCacheKey: "shared-sign-in-data",
+    });
+    const [signUp] = useSignUpMutation({
+        fixedCacheKey: "shared-sign-up-data",
+    });
 
     const handleFormDataChange =
         getInputDataChangeHandler<SignUpRequest>(setSignUpData);

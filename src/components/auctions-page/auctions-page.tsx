@@ -9,6 +9,7 @@ import { useGetAuctionsQuery } from "@/store/auctions.api";
 
 import styles from "./styles.module.scss";
 import { getJoinedQueryParams } from "@/common/utils/requests.utils";
+import Modal from "../common/modal/modal";
 
 const mapAuctionsFiltersToQueryNames: (
     filter: Filters,
@@ -30,6 +31,7 @@ const mapAuctionsFiltersToQueryNames: (
 };
 
 const AuctionsPage: FC = () => {
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [compiledFilters, setCompiledFilters] = useState<string>("");
     const { data: auctions } = useGetAuctionsQuery(compiledFilters);
 
@@ -48,26 +50,59 @@ const AuctionsPage: FC = () => {
     };
 
     return (
-        <div className={styles.auctionsPage}>
-            <FiltersSection
-                filters={activeFilters}
-                setFilters={setActiveFilters}
-                onApplyFilters={handleFiltersApplication}
-            />
-            <div className={styles.auctionsContainer}>
-                <div className={styles.auctionsContainer__tools}>
-                    <Input
-                        className={styles.searchInput}
-                        name="search"
-                        type="search"
-                        placeholder="Search"
-                        icon="search"
-                    />
-                    <Button name="+ Create new auction" />
+        <>
+            <div className={styles.auctionsPage}>
+                <FiltersSection
+                    filters={activeFilters}
+                    setFilters={setActiveFilters}
+                    onApplyFilters={handleFiltersApplication}
+                />
+                <div className={styles.auctionsContainer}>
+                    <div className={styles.auctionsContainer__tools}>
+                        <Input
+                            className={styles.searchInput}
+                            name="search"
+                            type="search"
+                            placeholder="Search"
+                            icon="search"
+                        />
+                        <Button
+                            name="+ Create new auction"
+                            onClick={() => setIsCreateModalOpen(true)}
+                        />
+                    </div>
+                    <Auctions auctions={auctions || []} />
                 </div>
-                <Auctions auctions={auctions || []} />
             </div>
-        </div>
+            <Modal
+                visible={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+            >
+                <div className={styles.createModal}>
+                    <label>
+                        <span>Product name</span>
+                        <Input name="product-name" type="text" />
+                    </label>
+                    <label>
+                        <span>Product description</span>
+                        <Input
+                            name="product-description"
+                            type="text"
+                            istextArea
+                        />
+                    </label>
+                    <label>
+                        <span>Initial price</span>
+                        <Input name="initial-price" type="number" />
+                    </label>
+                    <label>
+                        <span>End time</span>
+                        <Input name="end-time" type="date" />
+                    </label>
+                    <Button name="Create" />
+                </div>
+            </Modal>
+        </>
     );
 };
 
