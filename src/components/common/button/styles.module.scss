@@ -9,8 +9,14 @@
     padding: 10px;
 
     white-space: nowrap;
+    transition: background-color 0.3s;
 }
 
 .authSubmitButton {
     width: 100%;
+}
+
+.button:hover {
+    background-color: v.$color-purple-hover;
+    cursor: pointer;
 }
