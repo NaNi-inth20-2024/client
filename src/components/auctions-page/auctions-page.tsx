@@ -161,6 +161,16 @@ const AuctionsPage: FC = () => {
                 onClose={() => setIsCreateModalOpen(false)}
             >
                 <div className={styles.createModal}>
+                    <label className={styles.fileChoosing}>
+                        <span>Images</span>
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(e) => {
+                                setImages(e.target.files);
+                            }}
+                        />
+                    </label>
                     <label>
                         <span>Lot name</span>
                         <Input
@@ -169,7 +179,7 @@ const AuctionsPage: FC = () => {
                             onChange={newAuctionDataHandler("title")}
                         />
                     </label>
-                    <label>
+                    <label className={styles.description}>
                         <span>Lot description</span>
                         <Input
                             name="product-description"
@@ -214,18 +224,8 @@ const AuctionsPage: FC = () => {
                             onChange={newAuctionDataHandler("end_time")}
                         />
                     </label>
-                    <label>
-                        <span>Images</span>
-                        <input
-                            type="file"
-                            multiple
-                            onChange={(e) => {
-                                setImages(e.target.files);
-                            }}
-                        />
-                    </label>
 
-                    <Button name="Create" onClick={handleAuctionCreation} />
+                    <Button name="Create" onClick={handleAuctionCreation} classname={styles.createButton} />
                 </div>
             </Modal>
         </>
