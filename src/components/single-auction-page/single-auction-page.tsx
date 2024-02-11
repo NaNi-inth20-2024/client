@@ -47,6 +47,11 @@ const SingleAuctionPage = () => {
     const thisUserBid = bids.find((bid) => bid.author.id === user?.id)?.price;
 
     useEffect(() => {
+        const token = localStorageService.getByKey(TOKEN_NAME.ACCESS);
+        console.log(token);
+        if (!token) {
+            return;
+        }
         ws.current = new WebSocket(
             `ws://20.82.148.177:8000/api/v1/ws/auctions/${params.id}/bids/?token=${localStorageService.getByKey(TOKEN_NAME.ACCESS)}`,
         );
@@ -134,29 +139,49 @@ const SingleAuctionPage = () => {
                         </div>
                     </div>
                     <div className={styles.auction__bidInfo}>
-                        <div className={styles.auction__bidInfoHeader}>
-                            <span>
-                                Your bid: <span>{thisUserBid}$</span>
-                            </span>
-                            <Button
-                                name="+ Place a bid"
-                                onClick={() => setIsPlaceBidModalOpen(true)}
-                            />
-                        </div>
-                        <InfoHistory
-                            actions={bids.map((bid) => ({
-                                username: bid?.author.username,
-                                action: `${bid?.price}$`,
-                            }))}
-                            title="Bid history"
-                        />
-                        <InfoHistory
-                            actions={topBids.map((bid) => ({
-                                username: bid.author.username,
-                                action: `${bid.price}$`,
-                            }))}
-                            title="Top bids"
-                        />
+                        {auction?.finished ? (
+                            <div className={styles.auction__finished}>
+                                <h2>Auction is finished</h2>
+                                <span>
+                                    Winner:{" "}
+                                    {auction?.leader_bid?.author.username}
+                                </span>
+                                <p>
+                                    Price:{" "}
+                                    <span className={styles.highlighted}>
+                                        {auction?.leader_bid?.price}$
+                                    </span>
+                                </p>
+                            </div>
+                        ) : (
+                            <>
+                                <div className={styles.auction__bidInfoHeader}>
+                                    <span>
+                                        Your bid: <span>{thisUserBid}$</span>
+                                    </span>
+                                    <Button
+                                        name="+ Place a bid"
+                                        onClick={() =>
+                                            setIsPlaceBidModalOpen(true)
+                                        }
+                                    />
+                                </div>
+                                <InfoHistory
+                                    actions={bids.map((bid) => ({
+                                        username: bid?.author.username,
+                                        action: `${bid?.price}$`,
+                                    }))}
+                                    title="Bid history"
+                                />
+                                <InfoHistory
+                                    actions={topBids.map((bid) => ({
+                                        username: bid.author.username,
+                                        action: `${bid.price}$`,
+                                    }))}
+                                    title="Top bids"
+                                />
+                            </>
+                        )}
                     </div>
                 </div>
             )}
@@ -188,7 +213,7 @@ const SingleAuctionPage = () => {
                     <span>
                         Minimal gap between bids is{" "}
                         <span className={styles.highlighted}>
-                            {auction.min_bid_price_gap}$
+                            {auction?.min_bid_price_gap}$
                         </span>
                     </span>
                     <label>
