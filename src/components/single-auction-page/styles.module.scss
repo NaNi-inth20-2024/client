@@ -5,6 +5,7 @@
     width: 100%;
     justify-content: center;
     align-items: flex-start;
+    gap: 1rem;
 }
 
 .auction__info {
@@ -57,7 +58,6 @@
     flex-grow: 1;
     min-width: 300px;
     max-width: 500px;
-    padding: 1rem;
 }
 
 .auction__bidInfoHeader {
