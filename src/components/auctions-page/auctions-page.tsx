@@ -2,14 +2,25 @@ import { FC } from "react";
 import Input from "../common/input/input";
 import { useState } from "react";
 import FiltersSection from "./components/filters/filters-section";
-import { Filters } from "../../common/types/types";
+import {
+    CreateAuctionDto,
+    Filters,
+    isSuccessfulResponseDto,
+} from "../../common/types/types";
 import Button from "../common/button/button";
 import Auctions from "./components/auctions/auctions";
-import { useGetAuctionsQuery } from "@/store/auctions.api";
+import {
+    useCreateAuctionMutation,
+    useGetAuctionsQuery,
+} from "@/store/auctions.api";
 
 import styles from "./styles.module.scss";
 import { getJoinedQueryParams } from "@/common/utils/requests.utils";
 import Modal from "../common/modal/modal";
+import { getInputDataChangeHandler } from "@/common/utils/forms.utils";
+import { useRevalidateQuery } from "@/store/auth.api";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "@/common/enums/app-routes.enum";
 
 const mapAuctionsFiltersToQueryNames: (
     filter: Filters,
@@ -31,10 +42,21 @@ const mapAuctionsFiltersToQueryNames: (
 };
 
 const AuctionsPage: FC = () => {
+    const navigate = useNavigate();
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+    const { data: userData } = useRevalidateQuery();
+
+    const [newAuctionData, setNewAuctionData] = useState<CreateAuctionDto>({
+        title: "",
+        description: "",
+        initial_price: 0,
+        min_bid_price_gap: 0,
+        start_time: "",
+        end_time: "",
+        active: true,
+    });
     const [compiledFilters, setCompiledFilters] = useState<string>("");
     const { data: auctions, isLoading } = useGetAuctionsQuery(compiledFilters);
-
     const [activeFilters, setActiveFilters] = useState<Filters>({
         priceFrom: null,
         priceTo: null,
@@ -43,10 +65,38 @@ const AuctionsPage: FC = () => {
         search: null,
     });
 
+    const filtersValueChangeHandler =
+        getInputDataChangeHandler<Filters>(setActiveFilters);
+    const [createAuction] = useCreateAuctionMutation();
+
     const handleFiltersApplication = () => {
         setCompiledFilters(
             getJoinedQueryParams(mapAuctionsFiltersToQueryNames(activeFilters)),
         );
+    };
+
+    const newAuctionDataHandler =
+        getInputDataChangeHandler<CreateAuctionDto>(setNewAuctionData);
+    const handleAuctionCreation = async () => {
+        const isValidBody = Object.entries(newAuctionData)
+            .filter(([name]) => name !== "active")
+            .every(([, value]) => Boolean(value));
+
+        if (!isValidBody) {
+            alert(
+                "The auction you want to create contains invalid fields values",
+            );
+            return;
+        }
+
+        const newAuction = await createAuction(newAuctionData);
+
+        setIsCreateModalOpen(false);
+        if (!isSuccessfulResponseDto(newAuction)) {
+            return;
+        }
+
+        navigate(`${APP_ROUTES.AUCTIONS}/${newAuction.data.id}`);
     };
 
     return (
@@ -56,6 +106,7 @@ const AuctionsPage: FC = () => {
                     filters={activeFilters}
                     setFilters={setActiveFilters}
                     onApplyFilters={handleFiltersApplication}
+                    filtersValueChangeHandler={filtersValueChangeHandler}
                 />
                 <div className={styles.auctionsContainer}>
                     <div className={styles.auctionsContainer__tools}>
@@ -65,16 +116,20 @@ const AuctionsPage: FC = () => {
                             type="search"
                             placeholder="Search"
                             icon="search"
+                            onChange={filtersValueChangeHandler("search")}
                         />
-                        <Button
-                            name="+ New auction"
-                            onClick={() => setIsCreateModalOpen(true)}
-                        />
+                        {userData?.username && (
+                            <Button
+                                name="+ New auction"
+                                onClick={() => setIsCreateModalOpen(true)}
+                            />
+                        )}
                     </div>
                     <FiltersSection
                         filters={activeFilters}
                         setFilters={setActiveFilters}
                         onApplyFilters={handleFiltersApplication}
+                        filtersValueChangeHandler={filtersValueChangeHandler}
                         device="mobile"
                     />
                     {isLoading ? (
@@ -92,26 +147,59 @@ const AuctionsPage: FC = () => {
             >
                 <div className={styles.createModal}>
                     <label>
-                        <span>Product name</span>
-                        <Input name="product-name" type="text" />
+                        <span>Lot name</span>
+                        <Input
+                            name="product-name"
+                            type="text"
+                            onChange={newAuctionDataHandler("title")}
+                        />
                     </label>
                     <label>
-                        <span>Product description</span>
+                        <span>Lot description</span>
                         <Input
                             name="product-description"
                             type="text"
                             istextArea
+                            onChange={newAuctionDataHandler("description")}
                         />
                     </label>
                     <label>
                         <span>Initial price</span>
-                        <Input name="initial-price" type="number" />
+                        <Input
+                            name="initial-price"
+                            type="number"
+                            min="1"
+                            onChange={newAuctionDataHandler("initial_price")}
+                        />
+                    </label>
+                    <label>
+                        <span>Minimal bid step</span>
+                        <Input
+                            name="min-bid-price-gap"
+                            type="number"
+                            min="1"
+                            onChange={newAuctionDataHandler(
+                                "min_bid_price_gap",
+                            )}
+                        />
+                    </label>
+                    <label>
+                        <span>Start time</span>
+                        <Input
+                            name="start-time"
+                            type="date"
+                            onChange={newAuctionDataHandler("start_time")}
+                        />
                     </label>
                     <label>
                         <span>End time</span>
-                        <Input name="end-time" type="date" />
+                        <Input
+                            name="end-time"
+                            type="date"
+                            onChange={newAuctionDataHandler("end_time")}
+                        />
                     </label>
-                    <Button name="Create" />
+                    <Button name="Create" onClick={handleAuctionCreation} />
                 </div>
             </Modal>
         </>

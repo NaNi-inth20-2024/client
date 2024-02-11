@@ -30,7 +30,6 @@ function App() {
         const tokenToRevalidate = localStorageService.getByKey(
             TOKEN_NAME.ACCESS,
         );
-        console.log(tokenToRevalidate);
 
         if (!tokenToRevalidate || userData) {
             return;
