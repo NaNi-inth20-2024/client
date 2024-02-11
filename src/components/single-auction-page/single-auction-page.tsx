@@ -119,10 +119,6 @@ const SingleAuctionPage = () => {
                                 name="Edit informaton"
                                 onClick={() => setIsEditModalOpen(true)}
                             />
-                            <Button
-                                classname={styles.button_red}
-                                name="End auction"
-                            />
                         </div>
                     </div>
                     <div className={styles.auction__bidInfo}>
