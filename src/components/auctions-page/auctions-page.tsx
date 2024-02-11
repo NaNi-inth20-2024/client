@@ -67,7 +67,6 @@ const AuctionsPage: FC = () => {
                             icon="search"
                         />
                         <Button
-                            name="+ Create new auction"
                             name="+ New auction"
                             onClick={() => setIsCreateModalOpen(true)}
                         />
