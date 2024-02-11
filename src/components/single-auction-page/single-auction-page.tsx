@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Button from "../common/button/button";
 import Input from "../common/input/input";
 import Modal from "../common/modal/modal";
@@ -7,36 +7,38 @@ import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
 import { Bid } from "@/common/types/bid.type";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { addBid, replaceBids } from "@/store/bid/bid.slice";
 
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isPlaceBidModalOpen, setIsPlaceBidModalOpen] = useState(false);
 
-    const [bids, setBids] = useState<Bid[]>([]);
+    const dispatch = useAppDispatch();
+
+    const ws = useRef<WebSocket | null>(null);
+    const bids = useAppSelector((state) => state.bid.bids);
 
     useEffect(() => {
-        const ws = new WebSocket(
+        ws.current = new WebSocket(
             "ws://20.82.148.177/api/v1/ws/auctions/6/bids/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjY5Mzk5LCJpYXQiOjE3MDc2NjQ1OTksImp0aSI6IjEyMWQ3NThhYTllZjQ2NjJiZGJhNjJmZGEzOGE3ODJjIiwidXNlcl9pZCI6NH0.evNVQRkZlhGt_rcHSPL79DxAi21ZyW0yVoeGtIqAung",
         );
-        ws.onopen = () => {
-            console.log("connected");
+
+        ws.current.onopen = () => {
+            console.log("Connected to ws");
         };
-        ws.onmessage = (event) => {
-            console.log(event.data);
+
+        ws.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.results) {
-                setBids(data.results);
+                dispatch(replaceBids(data.results));
+            } else {
+                dispatch(addBid(data));
             }
-            else {
-                setBids((prevBids) => [...prevBids, data]);
-            }
-            //setBids(data);
         };
-        ws.onclose = () => {
-            console.log("disconnected");
-        };
+
         return () => {
-            ws.close();
+            ws.current?.close();
         };
     }, []);
 
