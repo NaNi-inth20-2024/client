@@ -1,31 +1,67 @@
-import { FC, useState } from "react";
-import type { SignInDto } from "../../../../common/types/types";
+import { FC, useCallback, useState } from "react";
+import {
+    isSuccessfulResponseDto,
+    AuthResponse,
+    type SignInRequest,
+} from "@/common/types/types";
 import {
     getInputDataChangeHandler,
     handleSubmit,
-} from "../../../../common/utils/forms.utils";
-import Input from "../../../common/input/input";
-import Button from "../../../common/button/button";
+} from "@/common/utils/forms.utils";
+import Input from "@/components/common/input/input";
+import Button from "@/components/common/button/button";
+import { authApi, useSignInMutation } from "@/store/auth.api";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES, TOKEN_NAME } from "@/common/enums/enums";
+import { localStorageService } from "@/services/services";
+import { useAppDispatch } from "@/store/hooks";
 
-const initialState: SignInDto = {
-    email: "",
+const initialState: SignInRequest = {
+    username: "",
     password: "",
 };
 
 const SignInForm: FC = () => {
-    const [signInData, setSignInData] = useState<SignInDto>(initialState);
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+    const [signInData, setSignInData] = useState<SignInRequest>(initialState);
+    const [signIn] = useSignInMutation({
+        fixedCacheKey: "shared-sign-in-data",
+    });
+
     const handleFormDataChange =
-        getInputDataChangeHandler<SignInDto>(setSignInData);
+        getInputDataChangeHandler<SignInRequest>(setSignInData);
+
+    const handleSignIn = useCallback(async () => {
+        const result = await signIn(signInData);
+
+        if (!isSuccessfulResponseDto<AuthResponse>(result)) {
+            return;
+        }
+
+        localStorageService.set(TOKEN_NAME.ACCESS, result.data.access);
+        localStorageService.set(TOKEN_NAME.REFRESH, result.data.refresh);
+
+        dispatch(
+            authApi.util.upsertQueryData(
+                "revalidate",
+                undefined,
+                result.data.user,
+            ),
+        );
+
+        navigate(APP_ROUTES.AUCTIONS);
+    }, [dispatch, signInData, signIn, navigate]);
 
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Email
+                Username
                 <Input
-                    name="email"
-                    type="email"
-                    value={signInData.email}
-                    onChange={handleFormDataChange("email")}
+                    name="username"
+                    type="text"
+                    value={signInData.username}
+                    onChange={handleFormDataChange("username")}
                 />
             </label>
 
@@ -39,7 +75,12 @@ const SignInForm: FC = () => {
                 />
             </label>
 
-            <Button name="Sign in" type="submit" classname="authSubmitButton" />
+            <Button
+                name="Sign in"
+                type="submit"
+                classname="authSubmitButton"
+                onClick={handleSignIn}
+            />
         </form>
     );
 };
