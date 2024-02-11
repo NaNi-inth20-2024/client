@@ -1,5 +1,5 @@
 import { type Filters } from "./filters.type";
-import { type Auction } from "./auction.type";
+import type { Auction, CreateAuctionDto } from "./auction.type";
 
 import type {
     SignUpRequest,
@@ -18,6 +18,7 @@ export type {
     AuthResponse,
     Bid,
     UserData,
+    CreateAuctionDto,
 };
 export { isSuccessfulResponseDto } from "./guards/guards";
 
