@@ -9,7 +9,6 @@ import { useGetAuctionsQuery } from "@/store/auctions.api";
 
 import styles from "./styles.module.scss";
 import { getJoinedQueryParams } from "@/common/utils/requests.utils";
-import { API } from "@/common/enums/api.enum";
 import Modal from "../common/modal/modal";
 
 const mapAuctionsFiltersToQueryNames: (
@@ -71,12 +70,24 @@ const AuctionsPage: FC = () => {
                             placeholder="Search"
                             icon="search"
                         />
-                        <Button name="+ Create new auction" onClick={() => setIsCreateModalOpen(true)} />
+                        <Button
+                            name="+ New auction"
+                            onClick={() => setIsCreateModalOpen(true)}
+                        />
                     </div>
+                    <FiltersSection
+                        filters={activeFilters}
+                        setFilters={setActiveFilters}
+                        onApplyFilters={handleFiltersApplication}
+                        device="mobile"
+                    />
                     <Auctions auctions={auctions || []} />
                 </div>
             </div>
-            <Modal visible={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)}>
+            <Modal
+                visible={isCreateModalOpen}
+                onClose={() => setIsCreateModalOpen(false)}
+            >
                 <div className={styles.createModal}>
                     <label>
                         <span>Product name</span>
@@ -84,7 +95,11 @@ const AuctionsPage: FC = () => {
                     </label>
                     <label>
                         <span>Product description</span>
-                        <Input name="product-description" type="text" istextArea />
+                        <Input
+                            name="product-description"
+                            type="text"
+                            istextArea
+                        />
                     </label>
                     <label>
                         <span>Initial price</span>

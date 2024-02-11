@@ -11,6 +11,7 @@
     border: 1px solid black;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     padding: 1rem;
+    gap: 1rem;
 }
 
 .filter {
@@ -38,5 +39,37 @@
     width: 100%;
     height: 1.5px;
     background-color: v.$color-purple;
-    margin: 1rem 0;
+}
+
+.filterContainer_mobile {
+    display: none;
+}
+
+@media screen and (max-width: 768px) {
+    .filterContainer_desktop {
+        display: none;
+    }
+
+    .filterContainer_mobile {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .separator {
+        display: none;
+    }
+
+    .filter__inputContainer {
+        flex-direction: column;
+
+        span {
+            display: none;
+        }
+    }
+
+    .filter__button {
+        grid-column: 1 / -1;
+    }
 }

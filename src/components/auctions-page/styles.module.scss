@@ -29,3 +29,14 @@
     flex-direction: column;
     gap: 20px;
 }
+
+@media screen and (max-width: 768px) {
+    .auctionsContainer__tools {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .auctionsContainer {
+        padding: 0;
+    }
+}
