@@ -7,7 +7,7 @@ import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBid, replaceBids } from "@/store/bid/bid.slice";
+import { addBid, clearBids, replaceBids } from "@/store/bid/bid.slice";
 import { useParams } from "react-router-dom";
 import { useGetAuctionByIdQuery } from "@/store/auctions.api";
 import { API } from "@/common/enums/api.enum";
@@ -56,6 +56,7 @@ const SingleAuctionPage = () => {
 
         return () => {
             ws.current?.close();
+            dispatch(clearBids());
         };
     }, []);
 
