@@ -8,12 +8,16 @@ import type {
     UserData,
 } from "./auth.type";
 
+import { type Bid } from "./bid.type";
+
 export type {
     Filters,
     Auction,
     SignUpRequest,
     SignInRequest,
     AuthResponse,
+    Bid,
     UserData,
 };
 export { isSuccessfulResponseDto } from "./guards/guards";
+

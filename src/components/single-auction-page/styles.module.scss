@@ -16,6 +16,7 @@
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     padding: 20px;
     border-radius: 10px;
+    width: 100%;
 
     p {
         text-align: justify;
@@ -96,6 +97,12 @@
     font-weight: 700;
 }
 
+.auction__infoDetailsTime {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: v.$color-purple;
+}
 @media screen and (max-width: 768px) {
     .singleAuctionPage {
         flex-direction: column;

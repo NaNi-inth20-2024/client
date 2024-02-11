@@ -1,3 +1,5 @@
+import { Bid } from "./bid.type";
+
 export type Auction = {
     id: number;
     title: string;
@@ -11,4 +13,5 @@ export type Auction = {
     start_time: string;
     end_time: string;
     active: boolean;
+    leader_bid: Bid;
 };

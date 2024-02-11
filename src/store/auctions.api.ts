@@ -15,7 +15,7 @@ const auctionsApi = createApi({
             },
         }),
         getAuctionById: builder.query<Auction, number>({
-            query: (id: number) => `/${id}`,
+            query: (id: number) => `${API_ROUTES.AUCTIONS}/${id}`,
         }),
     }),
 });

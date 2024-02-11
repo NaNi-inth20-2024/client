@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import AuctionsPage from "./components/auctions-page/auctions-page";
 import AuthPage from "./components/auth-page/auth-page";
 import Header from "./components/common/header/header";
