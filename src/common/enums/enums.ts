@@ -1,3 +1,4 @@
+export { APP_ROUTES } from "./app-routes.enum";
 export {
     API,
     API_ROUTES,
@@ -5,3 +6,4 @@ export {
     AUTH_ROUTES,
     AUTH_TOKEN_ROUTES,
 } from "./api.enum";
+export { HTTP_METHODS } from "./http.enum";

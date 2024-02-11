@@ -18,7 +18,7 @@ const AUCTIONS_ROUTES = {
 
 const AUTH_ROUTES = {
     REGISTER: "/register",
-    TOKEN: "/token",
+    TOKEN: "/token/",
 } as const;
 
 const AUTH_TOKEN_ROUTES = {

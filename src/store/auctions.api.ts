@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Auction } from "@/common/types/auction.type";
+import type { Auction } from "@/common/types/types";
 import { API, API_ROUTES } from "@/common/enums/enums";
 
 const auctionsApi = createApi({

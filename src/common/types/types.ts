@@ -1,5 +1,20 @@
 import { type Filters } from "./filters.type";
 import { type Auction } from "./auction.type";
-import type { SignInDto, SignUpDto } from "./auth.type";
 
-export type { Filters, Auction, SignInDto, SignUpDto };
+import type {
+    SignUpRequest,
+    SignUpResponse,
+    SignInRequest,
+    SignInResponse,
+} from "./auth.type";
+
+export type {
+    Filters,
+    Auction,
+    SignUpRequest,
+    SignUpResponse,
+    SignInRequest,
+    SignInResponse,
+};
+
+export { isSuccessfulResponseDto } from "./guards/guards";

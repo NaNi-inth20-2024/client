@@ -31,6 +31,8 @@ const mapAuctionsFiltersToQueryNames: (
 
 const AuctionsPage: FC = () => {
     const [compiledFilters, setCompiledFilters] = useState<string>("");
+    const { data: auctions } = useGetAuctionsQuery(compiledFilters);
+
     const [activeFilters, setActiveFilters] = useState<Filters>({
         priceFrom: null,
         priceTo: null,
@@ -38,12 +40,6 @@ const AuctionsPage: FC = () => {
         dateTo: null,
         search: null,
     });
-
-    const {
-        data: auctions,
-        isLoading,
-        refetch,
-    } = useGetAuctionsQuery(compiledFilters);
 
     const handleFiltersApplication = () => {
         setCompiledFilters(
