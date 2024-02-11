@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Auction } from "@/common/types/auction.type";
+import type { Auction, CreateAuctionDto } from "@/common/types/auction.type";
 import { API, API_ROUTES } from "@/common/enums/enums";
 
 const auctionsApi = createApi({
@@ -18,9 +18,30 @@ const auctionsApi = createApi({
         getAuctionById: builder.query<Auction, number>({
             query: (id: number) => `/${id}`,
         }),
+        createAuction: builder.mutation<Auction, CreateAuctionDto>({
+            query: (body: CreateAuctionDto) => ({
+                url: `${API_ROUTES.AUCTIONS}`,
+                method: "post", // HTTP_METHODS.POST,
+                body,
+            }),
+            transformResponse: (results: Auction, meta) => {
+                console.log(results, meta);
+
+                return results;
+            },
+        }),
     }),
 });
 
-const { useGetAuctionsQuery, useGetAuctionByIdQuery } = auctionsApi;
+const {
+    useGetAuctionsQuery,
+    useGetAuctionByIdQuery,
+    useCreateAuctionMutation,
+} = auctionsApi;
 
-export { auctionsApi, useGetAuctionsQuery, useGetAuctionByIdQuery };
+export {
+    auctionsApi,
+    useGetAuctionsQuery,
+    useGetAuctionByIdQuery,
+    useCreateAuctionMutation,
+};
