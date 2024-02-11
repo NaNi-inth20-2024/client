@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../common/button/button";
 import Input from "../common/input/input";
 import Modal from "../common/modal/modal";
@@ -6,10 +6,39 @@ import ImageScroller from "./components/image-scroller/image-scroller";
 import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
+import { Bid } from "@/common/types/bid.type";
 
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isPlaceBidModalOpen, setIsPlaceBidModalOpen] = useState(false);
+
+    const [bids, setBids] = useState<Bid[]>([]);
+
+    useEffect(() => {
+        const ws = new WebSocket(
+            "ws://20.82.148.177/api/v1/ws/auctions/6/bids/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjY5Mzk5LCJpYXQiOjE3MDc2NjQ1OTksImp0aSI6IjEyMWQ3NThhYTllZjQ2NjJiZGJhNjJmZGEzOGE3ODJjIiwidXNlcl9pZCI6NH0.evNVQRkZlhGt_rcHSPL79DxAi21ZyW0yVoeGtIqAung",
+        );
+        ws.onopen = () => {
+            console.log("connected");
+        };
+        ws.onmessage = (event) => {
+            console.log(event.data);
+            const data = JSON.parse(event.data);
+            if (data.results) {
+                setBids(data.results);
+            }
+            else {
+                setBids((prevBids) => [...prevBids, data]);
+            }
+            //setBids(data);
+        };
+        ws.onclose = () => {
+            console.log("disconnected");
+        };
+        return () => {
+            ws.close();
+        };
+    }, []);
 
     return (
         <>
@@ -62,13 +91,16 @@ const SingleAuctionPage = () => {
                             Your bid:{" "}
                             <span className={styles.highlighted}>1000$</span>
                         </span>
-                        <Button name="+ Place a bid" onClick={() => setIsPlaceBidModalOpen(true)} />
+                        <Button
+                            name="+ Place a bid"
+                            onClick={() => setIsPlaceBidModalOpen(true)}
+                        />
                     </div>
                     <InfoHistory
-                        actions={[
-                            { username: "John Doe", action: "Placed 1000$" },
-                            { username: "John Doe", action: "Placed 1000$" },
-                        ]}
+                        actions={bids.map((bid) => ({
+                            username: bid.author.username,
+                            action: `${bid.price}$`,
+                        }))}
                         title="Bid history"
                     />
                     <InfoHistory
@@ -109,7 +141,7 @@ const SingleAuctionPage = () => {
                         <span>Your bid</span>
                         <Input name="your-bid" type="number" />
                     </label>
-                    <Button name="Place a bid" />
+                    <Button name="Place a bid" onClick={() => {}} />
                 </div>
             </Modal>
         </>
