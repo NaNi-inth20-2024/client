@@ -48,6 +48,7 @@ const Header: FC = () => {
                                 visible={isMenuOpen}
                                 username={userData?.username}
                                 onLogout={handleLogout}
+                                onMenuClick={() => setIsMenuOpen(!isMenuOpen)}
                             />
                         </div>
                     </>

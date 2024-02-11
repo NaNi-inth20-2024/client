@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./styles.module.scss";
 import { NavLink } from "react-router-dom";
 
@@ -5,11 +6,14 @@ type Props = {
     username?: string;
     visible?: boolean;
     onLogout: () => void;
+    onMenuClick?: (e: React.MouseEvent) => void;
 };
 
-const HeaderMenu = ({ username, visible, onLogout }: Props) => (
+const HeaderMenu = ({ username, visible, onLogout, onMenuClick }: Props) => (
     <div
         className={`${styles.headerMenu} ${visible ? styles.open : styles.closed}`}
+        onClick={onMenuClick}
+        tabIndex={0}
     >
         {username && (
             <div className={styles.headerMenu__button}>
