@@ -132,12 +132,15 @@ const SingleAuctionPage = () => {
                             <p>{auction?.description}</p>
                         </div>
                         <div className={styles.auction__infoActions}>
-                            <Button
-                                name="Edit informaton"
-                                onClick={() => setIsEditModalOpen(true)}
-                            />
+                            {auction?.author.id === +user?.id && (
+                                <Button
+                                    name="Edit informaton"
+                                    onClick={() => setIsEditModalOpen(true)}
+                                />
+                            )}
                         </div>
                     </div>
+                    { user ? 
                     <div className={styles.auction__bidInfo}>
                         {auction?.finished ? (
                             <div className={styles.auction__finished}>
@@ -195,8 +198,8 @@ const SingleAuctionPage = () => {
                                 )}
                             </>
                         )}
-                    </div>
-                </div>
+                    </div>: <div className={`${styles.auction__bidInfo} ${styles.highlighted}` }>Log in to place a bid</div>}
+                </div> 
             )}
             <Modal
                 visible={isEditModalOpen}
