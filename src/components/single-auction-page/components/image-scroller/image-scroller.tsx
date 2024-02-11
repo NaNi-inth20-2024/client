@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import styles from "./styles.module.scss";
 
@@ -7,12 +7,13 @@ type Props = {
 };
 
 const ImageScroller = ({ images }: Props) => {
-    const [currentImage, setCurrentImage] = useState(images[0]);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
 
     return (
         <div className={styles["imageScroller"]}>
             <img
-                src={currentImage}
+                src={images[currentImageIndex]}
                 alt="Current image"
                 className={styles["imageScroller__currentImage"]}
             />
@@ -23,7 +24,7 @@ const ImageScroller = ({ images }: Props) => {
                         src={image}
                         alt={`Image ${index + 1}`}
                         className={styles["imageScroller__scrollerImage"]}
-                        onClick={() => setCurrentImage(image)}
+                        onClick={() => setCurrentImageIndex(index)}
                     />
                 ))}
             </div>
