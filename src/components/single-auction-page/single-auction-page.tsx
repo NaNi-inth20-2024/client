@@ -20,12 +20,14 @@ import { useGetAuctionByIdQuery } from "@/store/auctions.api";
 import { API } from "@/common/enums/api.enum";
 import { localStorageService } from "@/services/services";
 import { TOKEN_NAME } from "@/common/enums/auth.enum";
+import { useRevalidateQuery } from "@/store/auth.api";
 
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isPlaceBidModalOpen, setIsPlaceBidModalOpen] = useState(false);
 
     const [bid, setBid] = useState("");
+    const { data: user } = useRevalidateQuery(undefined);
 
     const params = useParams();
 
@@ -41,6 +43,8 @@ const SingleAuctionPage = () => {
     const ws = useRef<WebSocket | null>(null);
     const bids = useAppSelector((state) => state.bid.bids);
     const topBids = useAppSelector((state) => state.bid.topBids);
+
+    const thisUserBid = bids.find((bid) => bid.author.id === user?.id)?.price;
 
     useEffect(() => {
         ws.current = new WebSocket(
@@ -132,10 +136,7 @@ const SingleAuctionPage = () => {
                     <div className={styles.auction__bidInfo}>
                         <div className={styles.auction__bidInfoHeader}>
                             <span>
-                                Your bid:{" "}
-                                <span className={styles.highlighted}>
-                                    1000$
-                                </span>
+                                Your bid: <span>{thisUserBid}$</span>
                             </span>
                             <Button
                                 name="+ Place a bid"
@@ -184,6 +185,12 @@ const SingleAuctionPage = () => {
                 onClose={() => setIsPlaceBidModalOpen(false)}
             >
                 <div className={styles.edit_modal__content}>
+                    <span>
+                        Minimal gap between bids is{" "}
+                        <span className={styles.highlighted}>
+                            {auction.min_bid_price_gap}$
+                        </span>
+                    </span>
                     <label>
                         <span>Your bid</span>
                         <Input

@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Auction } from "@/common/types/types";
-import { API, API_ROUTES } from "@/common/enums/enums";
+import type { Auction, CreateAuctionDto } from "@/common/types/auction.type";
+import {
+    API,
+    API_ROUTES,
+    HTTP_METHODS,
+    TOKEN_NAME,
+} from "@/common/enums/enums";
+import { localStorageService } from "@/services/services";
 
 const auctionsApi = createApi({
     reducerPath: "auctionsApi",
@@ -17,9 +23,28 @@ const auctionsApi = createApi({
         getAuctionById: builder.query<Auction, number>({
             query: (id: number) => `${API_ROUTES.AUCTIONS}/${id}`,
         }),
+        createAuction: builder.mutation<Auction, CreateAuctionDto>({
+            query: (body: CreateAuctionDto) => ({
+                url: `${API_ROUTES.AUCTIONS}/`,
+                method: HTTP_METHODS.POST,
+                body,
+                headers: {
+                    Authorization: `Bearer ${localStorageService.getByKey(TOKEN_NAME.ACCESS)}`,
+                },
+            }),
+        }),
     }),
 });
 
-const { useGetAuctionsQuery, useGetAuctionByIdQuery } = auctionsApi;
+const {
+    useGetAuctionsQuery,
+    useGetAuctionByIdQuery,
+    useCreateAuctionMutation,
+} = auctionsApi;
 
-export { auctionsApi, useGetAuctionsQuery, useGetAuctionByIdQuery };
+export {
+    auctionsApi,
+    useGetAuctionsQuery,
+    useGetAuctionByIdQuery,
+    useCreateAuctionMutation,
+};
