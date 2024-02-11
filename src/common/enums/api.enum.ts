@@ -1,5 +1,6 @@
 const API = {
     URL: import.meta.env.VITE_API_URL as string,
+    MEDIA_URL: import.meta.env.VITE_MEDIA_URL as string,
 } as const;
 
 const API_ROUTES = {

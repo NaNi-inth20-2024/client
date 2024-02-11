@@ -9,9 +9,15 @@ type Props = {
     filters: Filters;
     setFilters: React.Dispatch<React.SetStateAction<Filters>>;
     onApplyFilters: () => void;
+    device?: "mobile" | "desktop";
 };
 
-const FiltersSection = ({ filters, setFilters, onApplyFilters }: Props) => {
+const FiltersSection = ({
+    filters,
+    setFilters,
+    onApplyFilters,
+    device = "desktop",
+}: Props) => {
     const filtersValueChangeHandler =
         getInputDataChangeHandler<Filters>(setFilters);
 
@@ -23,7 +29,9 @@ const FiltersSection = ({ filters, setFilters, onApplyFilters }: Props) => {
         filters?.priceFrom ? filters?.priceFrom + 1 : 1,
     );
     return (
-        <div className={styles.filterContainer}>
+        <div
+            className={`${styles.filterContainer} ${styles[`filterContainer_${device}`]}`}
+        >
             <div className={styles.filter}>
                 <span>Price</span>
                 <div className={styles.filter__inputContainer}>
@@ -65,9 +73,9 @@ const FiltersSection = ({ filters, setFilters, onApplyFilters }: Props) => {
                         min={filters?.dateFrom ?? ""}
                         onChange={filtersValueChangeHandler("dateTo")}
                     />
-                    <Button name="Apply filters" onClick={onApplyFilters} />
                 </div>
             </div>
+            <Button name="Apply filters" onClick={onApplyFilters} classname={styles.filter__button} />
         </div>
     );
 };

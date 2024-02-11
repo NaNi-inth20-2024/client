@@ -68,9 +68,16 @@ const AuctionsPage: FC = () => {
                         />
                         <Button
                             name="+ Create new auction"
+                            name="+ New auction"
                             onClick={() => setIsCreateModalOpen(true)}
                         />
                     </div>
+                    <FiltersSection
+                        filters={activeFilters}
+                        setFilters={setActiveFilters}
+                        onApplyFilters={handleFiltersApplication}
+                        device="mobile"
+                    />
                     <Auctions auctions={auctions || []} />
                 </div>
             </div>

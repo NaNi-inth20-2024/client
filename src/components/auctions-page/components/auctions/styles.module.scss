@@ -28,3 +28,15 @@
         font-weight: bold;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .auctionCard {
+        img {
+            height: 150px;
+        }
+    }
+
+    .auctionsContainer__auctions {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}

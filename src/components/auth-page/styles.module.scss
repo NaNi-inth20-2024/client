@@ -49,3 +49,17 @@
     color: v.$color-purple;
     padding-left: 5px;
 }
+
+@media screen and (max-width: 500px) {
+    .authPage__formWrapper {
+        min-width: 350px;
+        width: 80%;
+        background: none;
+        border: none;
+
+        p {
+            text-align: center;
+        }
+    }
+    
+}

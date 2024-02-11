@@ -5,7 +5,6 @@
     width: 100%;
     justify-content: center;
     align-items: flex-start;
-    gap: 20px;
 }
 
 .auction__info {
@@ -57,6 +56,7 @@
     flex-grow: 1;
     min-width: 300px;
     max-width: 500px;
+    padding: 1rem;
 }
 
 .auction__bidInfoHeader {
@@ -94,4 +94,26 @@
 .edit_modal__title {
     font-size: v.$font-size-200;
     font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+    .singleAuctionPage {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .auction__info {
+        max-width: 100%;
+    }
+
+    .auction__bidInfo {
+        min-width: 100%;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .auction__infoDetailsHeader {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
