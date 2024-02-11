@@ -9,6 +9,7 @@
     border: 1px solid v.$color-white-a25;
     padding: 8px 10px;
     width: 100%;
+    transition: background-color 0.3s;
 
     .icon {
         position: absolute;
@@ -26,5 +27,14 @@
         font-size: v.$font-size-100;
         width: 100%;
         outline: none;
+    }
+}
+
+.inputContainer:focus-within {
+    background-color: v.$color-white-a25;
+    border: 1px solid v.$color-white-a10;
+
+    .icon {
+        fill: v.$color-white;
     }
 }

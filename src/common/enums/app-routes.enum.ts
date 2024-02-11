@@ -1,5 +1,5 @@
 const APP_ROUTES = {
-    AUCTIONS: "/auctions",
+    AUCTIONS: "/",
     AUCTION: "/auctions/:id",
     AUTH: "/auth",
 } as const;

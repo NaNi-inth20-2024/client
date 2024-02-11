@@ -1,3 +1,5 @@
+import { Bid } from "./bid.type";
+
 type Auction = {
     id: number;
     title: string;
@@ -11,6 +13,7 @@ type Auction = {
     start_time: string;
     end_time: string;
     active: boolean;
+    leader_bid: Bid;
 };
 
 type CreateAuctionDto = {

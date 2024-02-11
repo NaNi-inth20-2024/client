@@ -55,8 +55,8 @@ const AuctionsPage: FC = () => {
         end_time: "",
         active: true,
     });
-
     const [compiledFilters, setCompiledFilters] = useState<string>("");
+    const { data: auctions, isLoading } = useGetAuctionsQuery(compiledFilters);
     const [activeFilters, setActiveFilters] = useState<Filters>({
         priceFrom: null,
         priceTo: null,
@@ -64,7 +64,6 @@ const AuctionsPage: FC = () => {
         dateTo: null,
         search: null,
     });
-    const { data: auctions } = useGetAuctionsQuery(compiledFilters);
 
     const filtersValueChangeHandler =
         getInputDataChangeHandler<Filters>(setActiveFilters);
@@ -133,7 +132,13 @@ const AuctionsPage: FC = () => {
                         filtersValueChangeHandler={filtersValueChangeHandler}
                         device="mobile"
                     />
-                    <Auctions auctions={auctions || []} />
+                    {isLoading ? (
+                        <div className={styles.loader}>
+                            <span></span>
+                        </div>
+                    ) : (
+                        <Auctions auctions={auctions || []} />
+                    )}
                 </div>
             </div>
             <Modal
