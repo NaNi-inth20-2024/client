@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import AuctionsPage from "./components/auctions-page/auctions-page";
 import UserPage from "./components/user-page/user-page";
 import AuthPage from "./components/auth-page/auth-page";
@@ -19,6 +19,7 @@ function App() {
                         <Route path="/*" element={<AuctionsPage />} />
                     </Routes>
                 </main>
+                <Link to="/auction/1">Auction 1</Link>
             </BrowserRouter>
         </>
     );
