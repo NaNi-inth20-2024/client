@@ -20,6 +20,7 @@ const AUCTIONS_ROUTES = {
 const AUTH_ROUTES = {
     REGISTER: "/register",
     TOKEN: "/token",
+    USER: "/user",
 } as const;
 
 const AUTH_TOKEN_ROUTES = {

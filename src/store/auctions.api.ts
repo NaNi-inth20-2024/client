@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Auction } from "@/common/types/auction.type";
+import type { Auction } from "@/common/types/types";
 import { API, API_ROUTES } from "@/common/enums/enums";
 
 const auctionsApi = createApi({
@@ -8,9 +8,8 @@ const auctionsApi = createApi({
     endpoints: (builder) => ({
         getAuctions: builder.query<Auction[], string>({
             query: (filters: string) => `${API_ROUTES.AUCTIONS}/${filters}`,
-            transformResponse: (rawResult: { results: Auction[] }, meta) => {
+            transformResponse: (rawResult: { results: Auction[] }) => {
                 const { results } = rawResult;
-                console.log(rawResult, meta);
 
                 return results;
             },

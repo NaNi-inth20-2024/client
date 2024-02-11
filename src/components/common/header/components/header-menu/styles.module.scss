@@ -17,8 +17,8 @@
     gap: 10px;
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
-
 
 .headerMenu__username {
     color: v.$color-purple;
@@ -48,5 +48,3 @@
         opacity: 1;
     }
 }
-
-
