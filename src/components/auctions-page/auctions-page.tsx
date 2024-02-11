@@ -11,6 +11,7 @@ import Button from "../common/button/button";
 import Auctions from "./components/auctions/auctions";
 import {
     useCreateAuctionMutation,
+    useCreateImageMutation,
     useGetAuctionsQuery,
 } from "@/store/auctions.api";
 
@@ -68,12 +69,15 @@ const AuctionsPage: FC = () => {
     const filtersValueChangeHandler =
         getInputDataChangeHandler<Filters>(setActiveFilters);
     const [createAuction] = useCreateAuctionMutation();
+    const [createImage] = useCreateImageMutation();
 
     const handleFiltersApplication = () => {
         setCompiledFilters(
             getJoinedQueryParams(mapAuctionsFiltersToQueryNames(activeFilters)),
         );
     };
+
+    const [images, setImages] = useState<FileList | null>(null);
 
     const newAuctionDataHandler =
         getInputDataChangeHandler<CreateAuctionDto>(setNewAuctionData);
@@ -96,7 +100,18 @@ const AuctionsPage: FC = () => {
             return;
         }
 
-        navigate(`${APP_ROUTES.AUCTION.replace(":id", newAuction.data.id + "")}`);
+        if (images) {
+            for (let i = 0; i < images.length; i++) {
+                const formData = new FormData();
+                formData.append("photo", images[i]);
+                formData.append("auction", newAuction.data.id + "");
+                await createImage(formData);
+            }
+        }
+
+        navigate(
+            `${APP_ROUTES.AUCTION.replace(":id", newAuction.data.id + "")}`,
+        );
     };
 
     return (
@@ -199,6 +214,17 @@ const AuctionsPage: FC = () => {
                             onChange={newAuctionDataHandler("end_time")}
                         />
                     </label>
+                    <label>
+                        <span>Images</span>
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(e) => {
+                                setImages(e.target.files);
+                            }}
+                        />
+                    </label>
+
                     <Button name="Create" onClick={handleAuctionCreation} />
                 </div>
             </Modal>

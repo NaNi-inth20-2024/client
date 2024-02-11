@@ -16,7 +16,6 @@ const auctionsApi = createApi({
             query: (filters: string) => `${API_ROUTES.AUCTIONS}/${filters}`,
             transformResponse: (rawResult: { results: Auction[] }) => {
                 const { results } = rawResult;
-
                 return results;
             },
         }),
@@ -33,6 +32,16 @@ const auctionsApi = createApi({
                 },
             }),
         }),
+        createImage: builder.mutation<{photo: string}, FormData>({
+            query: (FormData) => ({
+                url: `auction-photos/`,
+                method: HTTP_METHODS.POST,
+                body: FormData,
+                headers: {
+                    Authorization: `Bearer ${localStorageService.getByKey(TOKEN_NAME.ACCESS)}`,
+                },
+            }),
+        }),
     }),
 });
 
@@ -40,6 +49,7 @@ const {
     useGetAuctionsQuery,
     useGetAuctionByIdQuery,
     useCreateAuctionMutation,
+    useCreateImageMutation,
 } = auctionsApi;
 
 export {
@@ -47,4 +57,5 @@ export {
     useGetAuctionsQuery,
     useGetAuctionByIdQuery,
     useCreateAuctionMutation,
+    useCreateImageMutation,
 };
