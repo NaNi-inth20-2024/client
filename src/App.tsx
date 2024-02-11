@@ -14,7 +14,6 @@ function App() {
     const {
         data: userData,
         refetch: revalidate,
-        isLoading,
     } = useRevalidateQuery();
 
     const revalidateUser = async () => {
@@ -43,12 +42,7 @@ function App() {
     return (
         <>
             <BrowserRouter>
-                {isLoading ? (
-                    <div className="loader">
-                        <span></span>
-                    </div>
-                ) : (
-                    <>
+ 
                         <Header />
                         <main>
                             <Routes>
@@ -72,8 +66,7 @@ function App() {
                                 />
                             </Routes>
                         </main>
-                    </>
-                )}
+             
             </BrowserRouter>
         </>
     );
