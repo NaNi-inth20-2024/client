@@ -1,11 +1,13 @@
 @use "src/styles/variables" as v;
 
 header {
+    position: relative;
     padding: 10px 75px;
     position: sticky;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 100;
 }
 
 .header__textLogo {
@@ -25,6 +27,9 @@ header {
 }
 
 .header__userData {
+    position: relative;
+    height: 48px;
+    width: 48px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,4 +42,16 @@ header {
     margin-right: 10px;
     cursor: pointer;
     object-fit: cover;
+}
+
+.header__menuContainer {
+    position: absolute;
+    top: 100%;
+    right: 0;
+}
+
+.bars {
+    fill: v.$color-white;
+    height: 20px;
+    width: 20px;
 }
