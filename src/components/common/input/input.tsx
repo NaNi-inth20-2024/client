@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 
 type Props = {
     name: string;
-    type: "text" | "password" | "email" | "number" | "date" | "search";
+    type: "text" | "password" | "email" | "number" | "date" | "search" | "datetime-local";
     value?: string | number;
     icon?: "search";
     placeholder?: string;

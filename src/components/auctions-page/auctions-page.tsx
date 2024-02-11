@@ -212,7 +212,7 @@ const AuctionsPage: FC = () => {
                         <span>Start time</span>
                         <Input
                             name="start-time"
-                            type="date"
+                            type="datetime-local"
                             onChange={newAuctionDataHandler("start_time")}
                         />
                     </label>
@@ -220,7 +220,7 @@ const AuctionsPage: FC = () => {
                         <span>End time</span>
                         <Input
                             name="end-time"
-                            type="date"
+                            type="datetime-local"
                             onChange={newAuctionDataHandler("end_time")}
                         />
                     </label>

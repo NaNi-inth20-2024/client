@@ -32,7 +32,8 @@ const AuctionCard = ({ auction }: Props) => {
                 <span className={styles.auctionCard__name}>
                     {auction.title}
                 </span>
-                <span>{auction.initial_price} $</span>
+            
+                <span>{auction.leader_bid ? auction.leader_bid.price : auction.initial_price} $</span>
             </div>
         </Link>
     );
