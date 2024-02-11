@@ -19,7 +19,6 @@ function App() {
                         <Route path="/*" element={<AuctionsPage />} />
                     </Routes>
                 </main>
-                <Link to="/auction/1">Auction 1</Link>
             </BrowserRouter>
         </>
     );
