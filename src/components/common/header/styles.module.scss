@@ -10,6 +10,11 @@ header {
     z-index: 100;
 }
 
+.center {
+    display: flex;
+    justify-content: center;
+}
+
 .header__textLogo {
     color: v.$color-white;
     font-family: "Nosifer", sans-serif;
