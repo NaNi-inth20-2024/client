@@ -11,7 +11,7 @@ type Props = {
     className?: string;
     min?: string;
     max?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => void;
     istextArea?: boolean;
 };
 

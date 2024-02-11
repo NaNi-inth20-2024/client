@@ -60,6 +60,11 @@ header {
     header {
         padding: 10px 20px;
     }
+
+    .header__userData {
+        height: 40px;
+        width: unset;
+    }
 }
 
 @media screen and (max-width: 500px) {
