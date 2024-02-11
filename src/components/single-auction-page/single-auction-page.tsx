@@ -7,7 +7,14 @@ import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBid, addTopBid, clearBids, clearTopBids, replaceBids, replaceTopBids } from "@/store/bid/bid.slice";
+import {
+    addBid,
+    addTopBid,
+    clearBids,
+    clearTopBids,
+    replaceBids,
+    replaceTopBids,
+} from "@/store/bid/bid.slice";
 import { useParams } from "react-router-dom";
 import { useGetAuctionByIdQuery } from "@/store/auctions.api";
 import { API } from "@/common/enums/api.enum";
@@ -17,6 +24,8 @@ import { TOKEN_NAME } from "@/common/enums/auth.enum";
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isPlaceBidModalOpen, setIsPlaceBidModalOpen] = useState(false);
+
+    const [bid, setBid] = useState("");
 
     const params = useParams();
 
@@ -32,7 +41,6 @@ const SingleAuctionPage = () => {
     const ws = useRef<WebSocket | null>(null);
     const bids = useAppSelector((state) => state.bid.bids);
     const topBids = useAppSelector((state) => state.bid.topBids);
-
 
     useEffect(() => {
         ws.current = new WebSocket(
@@ -178,9 +186,20 @@ const SingleAuctionPage = () => {
                 <div className={styles.edit_modal__content}>
                     <label>
                         <span>Your bid</span>
-                        <Input name="your-bid" type="number" />
+                        <Input
+                            name="your-bid"
+                            type="number"
+                            value={bid}
+                            onChange={(e) => setBid(e.target.value)}
+                        />
                     </label>
-                    <Button name="Place a bid" onClick={() => {}} />
+                    <Button
+                        name="Place a bid"
+                        onClick={() => {
+                            ws.current?.send(JSON.stringify({ price: bid }));
+                            setIsPlaceBidModalOpen(false);
+                        }}
+                    />
                 </div>
             </Modal>
         </>

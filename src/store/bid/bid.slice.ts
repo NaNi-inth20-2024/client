@@ -23,7 +23,7 @@ export const bidSlice = createSlice({
         addTopBid(state, action) {
             // find user in topBids, if exists, replace, if not, add
             const user = action.payload.author;
-            const index = state.topBids.findIndex((bid) => bid.author === user);
+            const index = state.topBids.findIndex((bid) => bid.author.id === user.id);
             if (index !== -1) {
                 state.topBids[index] = action.payload;
             } else {
