@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit/react";
-
+const maxBids = 15;
 export const bidSlice = createSlice({
     name: "bid",
     initialState: {
@@ -7,14 +7,17 @@ export const bidSlice = createSlice({
     },
     reducers: {
         addBid(state, action) {
-            state.bids.push(action.payload);
+            if (state.bids.length >= maxBids) {
+                state.bids.pop();
+            }
+            state.bids.unshift(action.payload);
         },
         replaceBids(state, action) {
             state.bids = action.payload;
         },
         clearBids(state) {
             state.bids = [];
-        }
+        },
     },
 });
 
