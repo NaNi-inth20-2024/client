@@ -11,7 +11,7 @@ import { Link } from "react-router-dom";
 const Header: FC = () => {
     const dispatch = useAppDispatch();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-    const { data: userData } = useRevalidateQuery();
+    const { data: userData } = useRevalidateQuery(undefined);
 
     const handleLogout = () => {
         dispatch(authApi.util.resetApiState());
@@ -20,7 +20,7 @@ const Header: FC = () => {
     };
 
     return (
-        <header>
+        <header className={userData?.username ? "" : styles.center}>
             <h1 className={styles.header__textLogo}>
                 <Link to="/">
                     <span className={styles.coloredFragment}>PURPLE</span>{" "}
@@ -50,7 +50,7 @@ const Header: FC = () => {
                     </>
                 </div>
             ) : (
-                <Button name="Sign in" link="/auth" />
+                userData?.username && <Button name="Sign in" link="/auth" />
             )}
         </header>
     );
