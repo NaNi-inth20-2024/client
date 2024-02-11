@@ -11,7 +11,7 @@ const authTypeToAuthForm: Record<AuthType, FC> = {
 };
 
 const AuthPage: FC = () => {
-    const [authType, setAuthType] = useState<AuthType>("Sign Up");
+    const [authType, setAuthType] = useState<AuthType>("Sign In");
     const handleAuthTypeSwap = () =>
         setAuthType((prevState) =>
             prevState === "Sign In" ? "Sign Up" : "Sign In",

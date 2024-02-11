@@ -18,6 +18,7 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .headerMenu__username {
@@ -38,6 +39,10 @@
 .open {
     display: block;
     animation: fadeIn 0.3s;
+}
+
+.headerMenu__button:hover {
+    background-color: v.$color-white-a10;
 }
 
 @keyframes fadeIn {

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import AuctionsPage from "./components/auctions-page/auctions-page";
 import AuthPage from "./components/auth-page/auth-page";
 import Header from "./components/common/header/header";
@@ -11,7 +11,10 @@ import { localStorageService } from "./services/services";
 import { TOKEN_NAME } from "./common/enums/auth.enum";
 
 function App() {
-    const { data: userData, refetch: revalidate } = useRevalidateQuery();
+    const {
+        data: userData,
+        refetch: revalidate,
+    } = useRevalidateQuery();
 
     const revalidateUser = async () => {
         const result = await revalidate();
@@ -39,21 +42,31 @@ function App() {
     return (
         <>
             <BrowserRouter>
-                <Header />
-                <main>
-                    <Routes>
-                        <Route
-                            path={APP_ROUTES.AUCTIONS}
-                            element={<AuctionsPage />}
-                        />
-                        <Route path={APP_ROUTES.AUTH} element={<AuthPage />} />
-                        <Route
-                            path={APP_ROUTES.AUCTION}
-                            element={<SingleAuctionPage />}
-                        />
-                        <Route path="/*" element={<AuctionsPage />} />
-                    </Routes>
-                </main>
+ 
+                        <Header />
+                        <main>
+                            <Routes>
+                                <Route
+                                    path={APP_ROUTES.AUCTIONS}
+                                    element={<AuctionsPage />}
+                                />
+                                <Route
+                                    path={APP_ROUTES.AUTH}
+                                    element={<AuthPage />}
+                                />
+                                <Route
+                                    path={APP_ROUTES.AUCTION}
+                                    element={<SingleAuctionPage />}
+                                />
+                                <Route
+                                    path="/*"
+                                    element={
+                                        <Navigate to={APP_ROUTES.AUCTIONS} />
+                                    }
+                                />
+                            </Routes>
+                        </main>
+             
             </BrowserRouter>
         </>
     );
