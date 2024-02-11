@@ -25,9 +25,10 @@
 }
 
 .createModal {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
+
 }
 
 .loader {
@@ -48,6 +49,21 @@
         border-radius: 50%;
         animation: spin 2s linear infinite;
     }
+}
+
+.fileChoosing {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.description {
+    grid-column: 1 / -1;
+}
+
+.createButton {
+    grid-column: 1 / -1;
 }
 
 @keyframes spin {

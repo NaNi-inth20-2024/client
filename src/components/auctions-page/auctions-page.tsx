@@ -11,6 +11,7 @@ import Button from "../common/button/button";
 import Auctions from "./components/auctions/auctions";
 import {
     useCreateAuctionMutation,
+    useCreateImageMutation,
     useGetAuctionsQuery,
 } from "@/store/auctions.api";
 
@@ -68,12 +69,15 @@ const AuctionsPage: FC = () => {
     const filtersValueChangeHandler =
         getInputDataChangeHandler<Filters>(setActiveFilters);
     const [createAuction] = useCreateAuctionMutation();
+    const [createImage] = useCreateImageMutation();
 
     const handleFiltersApplication = () => {
         setCompiledFilters(
             getJoinedQueryParams(mapAuctionsFiltersToQueryNames(activeFilters)),
         );
     };
+
+    const [images, setImages] = useState<FileList | null>(null);
 
     const newAuctionDataHandler =
         getInputDataChangeHandler<CreateAuctionDto>(setNewAuctionData);
@@ -96,7 +100,18 @@ const AuctionsPage: FC = () => {
             return;
         }
 
-        navigate(`${APP_ROUTES.AUCTIONS}/${newAuction.data.id}`);
+        if (images) {
+            for (let i = 0; i < images.length; i++) {
+                const formData = new FormData();
+                formData.append("photo", images[i]);
+                formData.append("auction", newAuction.data.id + "");
+                await createImage(formData);
+            }
+        }
+
+        navigate(
+            `${APP_ROUTES.AUCTION.replace(":id", newAuction.data.id + "")}`,
+        );
     };
 
     return (
@@ -146,6 +161,16 @@ const AuctionsPage: FC = () => {
                 onClose={() => setIsCreateModalOpen(false)}
             >
                 <div className={styles.createModal}>
+                    <label className={styles.fileChoosing}>
+                        <span>Images</span>
+                        <input
+                            type="file"
+                            multiple
+                            onChange={(e) => {
+                                setImages(e.target.files);
+                            }}
+                        />
+                    </label>
                     <label>
                         <span>Lot name</span>
                         <Input
@@ -154,7 +179,7 @@ const AuctionsPage: FC = () => {
                             onChange={newAuctionDataHandler("title")}
                         />
                     </label>
-                    <label>
+                    <label className={styles.description}>
                         <span>Lot description</span>
                         <Input
                             name="product-description"
@@ -199,7 +224,8 @@ const AuctionsPage: FC = () => {
                             onChange={newAuctionDataHandler("end_time")}
                         />
                     </label>
-                    <Button name="Create" onClick={handleAuctionCreation} />
+
+                    <Button name="Create" onClick={handleAuctionCreation} classname={styles.createButton} />
                 </div>
             </Modal>
         </>
