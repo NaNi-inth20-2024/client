@@ -6,12 +6,15 @@ import { useRevalidateQuery, authApi } from "@/store/auth.api";
 import styles from "./styles.module.scss";
 import { useAppDispatch } from "@/store/hooks";
 import Button from "../button/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Header: FC = () => {
     const dispatch = useAppDispatch();
     const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
     const { data: userData } = useRevalidateQuery(undefined);
+
+    // get path
+    const path = useLocation().pathname;
 
     const handleLogout = () => {
         dispatch(authApi.util.resetApiState());
@@ -20,7 +23,7 @@ const Header: FC = () => {
     };
 
     return (
-        <header className={userData?.username ? "" : styles.center}>
+        <header className={path !== "/auth" ? "" : styles.center}>
             <h1 className={styles.header__textLogo}>
                 <Link to="/">
                     <span className={styles.coloredFragment}>PURPLE</span>{" "}
@@ -50,7 +53,7 @@ const Header: FC = () => {
                     </>
                 </div>
             ) : (
-                userData?.username && <Button name="Sign in" link="/auth" />
+                path === "/auth" ? null : <Button name="Sign in" link="/auth" />
             )}
         </header>
     );
