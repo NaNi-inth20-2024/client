@@ -8,9 +8,8 @@ const auctionsApi = createApi({
     endpoints: (builder) => ({
         getAuctions: builder.query<Auction[], string>({
             query: (filters: string) => `${API_ROUTES.AUCTIONS}/${filters}`,
-            transformResponse: (rawResult: { results: Auction[] }, meta) => {
+            transformResponse: (rawResult: { results: Auction[] }) => {
                 const { results } = rawResult;
-                console.log(rawResult, meta);
 
                 return results;
             },

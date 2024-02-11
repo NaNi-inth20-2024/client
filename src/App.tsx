@@ -4,8 +4,38 @@ import AuthPage from "./components/auth-page/auth-page";
 import Header from "./components/common/header/header";
 import SingleAuctionPage from "./components/single-auction-page/single-auction-page";
 import { APP_ROUTES } from "./common/enums/app-routes.enum";
+import { useRevalidateQuery } from "./store/auth.api";
+import { isSuccessfulResponseDto } from "./common/types/types";
+import { useEffect } from "react";
+import { localStorageService } from "./services/services";
+import { TOKEN_NAME } from "./common/enums/auth.enum";
 
 function App() {
+    const { data: userData, refetch: revalidate } = useRevalidateQuery();
+
+    const revalidateUser = async () => {
+        const result = await revalidate();
+
+        if (isSuccessfulResponseDto(result)) {
+            return;
+        }
+
+        localStorageService.reset();
+    };
+
+    useEffect(() => {
+        const tokenToRevalidate = localStorageService.getByKey(
+            TOKEN_NAME.ACCESS,
+        );
+        console.log(tokenToRevalidate);
+
+        if (!tokenToRevalidate || userData) {
+            return;
+        }
+
+        revalidateUser();
+    }, []);
+
     return (
         <>
             <BrowserRouter>

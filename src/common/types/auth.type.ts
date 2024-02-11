@@ -1,11 +1,17 @@
-type SignUpRequest = {
+type UserData = {
+    id: string;
     username: string;
-    password: string;
     email: string;
 };
 
-type SignUpResponse = {
+type TokenDto = {
+    access: string;
+    refresh: string;
+};
+
+type SignUpRequest = {
     username: string;
+    password: string;
     email: string;
 };
 
@@ -14,9 +20,8 @@ type SignInRequest = {
     password: string;
 };
 
-type SignInResponse = {
-    access: string;
-    refresh: string;
+type AuthResponse = TokenDto & {
+    user: UserData;
 };
 
-export type { SignUpRequest, SignUpResponse, SignInRequest, SignInResponse };
+export type { SignUpRequest, SignInRequest, AuthResponse, UserData };

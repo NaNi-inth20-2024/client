@@ -1,9 +1,8 @@
 import { FC, useCallback, useState } from "react";
 import {
     isSuccessfulResponseDto,
-    SignUpResponse,
     type SignUpRequest,
-    SignInResponse,
+    type AuthResponse,
 } from "../../../../common/types/types";
 import {
     getInputDataChangeHandler,
@@ -11,10 +10,11 @@ import {
 } from "../../../../common/utils/forms.utils";
 import Input from "../../../common/input/input";
 import Button from "../../../common/button/button";
-import { useSignInMutation, useSignUpMutation } from "@/store/auth.api";
+import { authApi, useSignUpMutation } from "@/store/auth.api";
 import { useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "@/common/enums/enums";
+import { APP_ROUTES, TOKEN_NAME } from "@/common/enums/enums";
 import { localStorageService } from "@/services/services";
+import { useAppDispatch } from "@/store/hooks";
 
 const initialState: SignUpRequest = {
     username: "",
@@ -23,38 +23,34 @@ const initialState: SignUpRequest = {
 };
 
 const SignUpForm: FC = () => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const [signUpData, setSignUpData] = useState<SignUpRequest>(initialState);
-    const [signIn] = useSignInMutation({
-        fixedCacheKey: "shared-sign-in-data",
-    });
-    const [signUp] = useSignUpMutation({
-        fixedCacheKey: "shared-sign-up-data",
-    });
+    const [signUp] = useSignUpMutation();
 
     const handleFormDataChange =
         getInputDataChangeHandler<SignUpRequest>(setSignUpData);
 
     const handleSignUp = useCallback(async () => {
-        const signUpResult = await signUp(signUpData);
+        const result = await signUp(signUpData);
 
-        if (!isSuccessfulResponseDto<SignUpResponse>(signUpResult)) {
+        if (!isSuccessfulResponseDto<AuthResponse>(result)) {
             return;
         }
 
-        const signInResult = await signIn({
-            username: signUpData.username,
-            password: signUpData.password,
-        });
+        localStorageService.set(TOKEN_NAME.ACCESS, result.data.access);
+        localStorageService.set(TOKEN_NAME.REFRESH, result.data.refresh);
 
-        if (!isSuccessfulResponseDto<SignInResponse>(signInResult)) {
-            return;
-        }
+        dispatch(
+            authApi.util.upsertQueryData(
+                "revalidate",
+                undefined,
+                result.data.user,
+            ),
+        );
 
-        localStorageService.set("token", signInResult.data.access);
-        localStorageService.set("refresh", signInResult.data.refresh);
         navigate(APP_ROUTES.AUCTIONS);
-    }, [signIn, signUp, signUpData, navigate]);
+    }, [dispatch, signUp, signUpData, navigate]);
 
     return (
         <form onSubmit={handleSubmit}>
