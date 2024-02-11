@@ -54,6 +54,7 @@ header {
     fill: v.$color-white;
     height: 20px;
     width: 20px;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 768px) {
@@ -71,5 +72,4 @@ header {
     .header__textLogo {
         font-size: v.$font-size-300;
     }
-    
 }

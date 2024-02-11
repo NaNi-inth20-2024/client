@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Auction, CreateAuctionDto } from "@/common/types/auction.type";
-import { API, API_ROUTES } from "@/common/enums/enums";
+import { API, API_ROUTES, HTTP_METHODS } from "@/common/enums/enums";
 
 const auctionsApi = createApi({
     reducerPath: "auctionsApi",
@@ -8,9 +8,8 @@ const auctionsApi = createApi({
     endpoints: (builder) => ({
         getAuctions: builder.query<Auction[], string>({
             query: (filters: string) => `${API_ROUTES.AUCTIONS}/${filters}`,
-            transformResponse: (rawResult: { results: Auction[] }, meta) => {
+            transformResponse: (rawResult: { results: Auction[] }) => {
                 const { results } = rawResult;
-                console.log(rawResult, meta);
 
                 return results;
             },
@@ -21,7 +20,7 @@ const auctionsApi = createApi({
         createAuction: builder.mutation<Auction, CreateAuctionDto>({
             query: (body: CreateAuctionDto) => ({
                 url: `${API_ROUTES.AUCTIONS}`,
-                method: "post", // HTTP_METHODS.POST,
+                method: HTTP_METHODS.POST,
                 body,
             }),
             transformResponse: (results: Auction, meta) => {

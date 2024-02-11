@@ -2,7 +2,7 @@ import { FC } from "react";
 import Input from "../common/input/input";
 import { useState } from "react";
 import FiltersSection from "./components/filters/filters-section";
-import { Auction, CreateAuctionDto, Filters } from "../../common/types/types";
+import { CreateAuctionDto, Filters } from "../../common/types/types";
 import Button from "../common/button/button";
 import Auctions from "./components/auctions/auctions";
 import {
@@ -48,6 +48,8 @@ const AuctionsPage: FC = () => {
     });
 
     const [compiledFilters, setCompiledFilters] = useState<string>("");
+    const { data: auctions } = useGetAuctionsQuery(compiledFilters);
+
     const [activeFilters, setActiveFilters] = useState<Filters>({
         priceFrom: null,
         priceTo: null,
@@ -56,11 +58,6 @@ const AuctionsPage: FC = () => {
         search: null,
     });
 
-    const {
-        data: auctions,
-        isLoading,
-        refetch,
-    } = useGetAuctionsQuery(compiledFilters);
     const [createAuction] = useCreateAuctionMutation();
 
     const handleFiltersApplication = () => {
