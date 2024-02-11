@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import AuctionsPage from "./components/auctions-page/auctions-page";
 import AuthPage from "./components/auth-page/auth-page";
 import Header from "./components/common/header/header";
@@ -51,7 +51,7 @@ function App() {
                             path={APP_ROUTES.AUCTION}
                             element={<SingleAuctionPage />}
                         />
-                        <Route path="/*" element={<AuctionsPage />} />
+                        <Route path="/*" element={<Navigate to={APP_ROUTES.AUCTIONS} />} /> 
                     </Routes>
                 </main>
             </BrowserRouter>

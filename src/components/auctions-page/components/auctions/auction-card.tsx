@@ -3,6 +3,7 @@ import { Auction } from "../../../../common/types/types";
 
 import styles from "./styles.module.scss";
 import { Link, NavLink } from "react-router-dom";
+import { APP_ROUTES } from "@/common/enums/app-routes.enum";
 
 type Props = {
     auction: Auction;
@@ -23,7 +24,7 @@ const AuctionCard = ({ auction }: Props) => {
                 />
             )}
             <span className={styles.auctionCard__name}>
-                <Link to={`/auction/${auction.id}`}>
+                <Link to={`${APP_ROUTES.AUCTION.replace(":id", auction.id + "")}`}>
                     {auction.title}
                 </Link>
             </span>
