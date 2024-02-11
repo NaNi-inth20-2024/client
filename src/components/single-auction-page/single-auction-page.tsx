@@ -7,10 +7,12 @@ import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { addBid, clearBids, replaceBids } from "@/store/bid/bid.slice";
+import { addBid, addTopBid, clearBids, clearTopBids, replaceBids, replaceTopBids } from "@/store/bid/bid.slice";
 import { useParams } from "react-router-dom";
 import { useGetAuctionByIdQuery } from "@/store/auctions.api";
 import { API } from "@/common/enums/api.enum";
+import { localStorageService } from "@/services/services";
+import { TOKEN_NAME } from "@/common/enums/auth.enum";
 
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
@@ -29,11 +31,12 @@ const SingleAuctionPage = () => {
 
     const ws = useRef<WebSocket | null>(null);
     const bids = useAppSelector((state) => state.bid.bids);
+    const topBids = useAppSelector((state) => state.bid.topBids);
 
 
     useEffect(() => {
         ws.current = new WebSocket(
-            `ws://20.82.148.177:8000/api/v1/ws/auctions/${params.id}/bids/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjY5Mzk5LCJpYXQiOjE3MDc2NjQ1OTksImp0aSI6IjEyMWQ3NThhYTllZjQ2NjJiZGJhNjJmZGEzOGE3ODJjIiwidXNlcl9pZCI6NH0.evNVQRkZlhGt_rcHSPL79DxAi21ZyW0yVoeGtIqAung`,
+            `ws://20.82.148.177:8000/api/v1/ws/auctions/${params.id}/bids/?token=${localStorageService.getByKey(TOKEN_NAME.ACCESS)}`,
         );
 
         ws.current.onopen = () => {
@@ -49,14 +52,17 @@ const SingleAuctionPage = () => {
             }
             if (data.results) {
                 dispatch(replaceBids(data.results));
+                dispatch(replaceTopBids(data.highest_bids));
             } else {
                 dispatch(addBid(data));
+                dispatch(addTopBid(data));
             }
         };
 
         return () => {
             ws.current?.close();
             dispatch(clearBids());
+            dispatch(clearTopBids());
         };
     }, []);
 
@@ -134,16 +140,16 @@ const SingleAuctionPage = () => {
                         </div>
                         <InfoHistory
                             actions={bids.map((bid) => ({
-                                username: bid.author.username,
-                                action: `${bid.price}$`,
+                                username: bid?.author.username,
+                                action: `${bid?.price}$`,
                             }))}
                             title="Bid history"
                         />
                         <InfoHistory
-                            actions={[
-                                { username: "John Doe", action: "1000$" },
-                                { username: "John Doe", action: "1000$" },
-                            ]}
+                            actions={topBids.map((bid) => ({
+                                username: bid.author.username,
+                                action: `${bid.price}$`,
+                            }))}
                             title="Top bids"
                         />
                     </div>
