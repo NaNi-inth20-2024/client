@@ -11,7 +11,11 @@ import { localStorageService } from "./services/services";
 import { TOKEN_NAME } from "./common/enums/auth.enum";
 
 function App() {
-    const { data: userData, refetch: revalidate } = useRevalidateQuery();
+    const {
+        data: userData,
+        refetch: revalidate,
+        isLoading,
+    } = useRevalidateQuery();
 
     const revalidateUser = async () => {
         const result = await revalidate();
@@ -39,21 +43,37 @@ function App() {
     return (
         <>
             <BrowserRouter>
-                <Header />
-                <main>
-                    <Routes>
-                        <Route
-                            path={APP_ROUTES.AUCTIONS}
-                            element={<AuctionsPage />}
-                        />
-                        <Route path={APP_ROUTES.AUTH} element={<AuthPage />} />
-                        <Route
-                            path={APP_ROUTES.AUCTION}
-                            element={<SingleAuctionPage />}
-                        />
-                        <Route path="/*" element={<Navigate to={APP_ROUTES.AUCTIONS} />} /> 
-                    </Routes>
-                </main>
+                {isLoading ? (
+                    <div className="loader">
+                        <span></span>
+                    </div>
+                ) : (
+                    <>
+                        <Header />
+                        <main>
+                            <Routes>
+                                <Route
+                                    path={APP_ROUTES.AUCTIONS}
+                                    element={<AuctionsPage />}
+                                />
+                                <Route
+                                    path={APP_ROUTES.AUTH}
+                                    element={<AuthPage />}
+                                />
+                                <Route
+                                    path={APP_ROUTES.AUCTION}
+                                    element={<SingleAuctionPage />}
+                                />
+                                <Route
+                                    path="/*"
+                                    element={
+                                        <Navigate to={APP_ROUTES.AUCTIONS} />
+                                    }
+                                />
+                            </Routes>
+                        </main>
+                    </>
+                )}
             </BrowserRouter>
         </>
     );
