@@ -155,31 +155,44 @@ const SingleAuctionPage = () => {
                             </div>
                         ) : (
                             <>
-                                <div className={styles.auction__bidInfoHeader}>
-                                    <span>
-                                        Your bid: <span>{thisUserBid}$</span>
-                                    </span>
-                                    <Button
-                                        name="+ Place a bid"
-                                        onClick={() =>
-                                            setIsPlaceBidModalOpen(true)
-                                        }
-                                    />
-                                </div>
-                                <InfoHistory
-                                    actions={bids.map((bid) => ({
-                                        username: bid?.author.username,
-                                        action: `${bid?.price}$`,
-                                    }))}
-                                    title="Bid history"
-                                />
-                                <InfoHistory
-                                    actions={topBids.map((bid) => ({
-                                        username: bid.author.username,
-                                        action: `${bid.price}$`,
-                                    }))}
-                                    title="Top bids"
-                                />
+                                {!auction?.started ? (
+                                    <div className={styles.auction__notStarted}>
+                                        <h2>Auction not started yet</h2>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div
+                                            className={
+                                                styles.auction__bidInfoHeader
+                                            }
+                                        >
+                                            <span>
+                                                Your bid:{" "}
+                                                <span>{thisUserBid}$</span>
+                                            </span>
+                                            <Button
+                                                name="+ Place a bid"
+                                                onClick={() =>
+                                                    setIsPlaceBidModalOpen(true)
+                                                }
+                                            />
+                                        </div>
+                                        <InfoHistory
+                                            actions={bids.map((bid) => ({
+                                                username: bid?.author.username,
+                                                action: `${bid?.price}$`,
+                                            }))}
+                                            title="Bid history"
+                                        />
+                                        <InfoHistory
+                                            actions={topBids.map((bid) => ({
+                                                username: bid.author.username,
+                                                action: `${bid.price}$`,
+                                            }))}
+                                            title="Top bids"
+                                        />
+                                    </>
+                                )}
                             </>
                         )}
                     </div>

@@ -96,7 +96,7 @@ const AuctionsPage: FC = () => {
             return;
         }
 
-        navigate(`${APP_ROUTES.AUCTION}/${newAuction.data.id}`);
+        navigate(`${APP_ROUTES.AUCTION.replace(":id", newAuction.data.id + "")}`);
     };
 
     return (
