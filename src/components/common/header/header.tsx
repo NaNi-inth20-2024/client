@@ -6,14 +6,16 @@ import { useSignInMutation, useSignUpMutation } from "@/store/auth.api";
 import styles from "./styles.module.scss";
 
 const Header: FC = () => {
-    const [, { data: signInData }] = useSignInMutation({
+    const [, { data: signInData, reset: resetSignInData }] = useSignInMutation({
         fixedCacheKey: "shared-sign-in-data",
     });
-    const [, { data: signUpData }] = useSignUpMutation({
+    const [, { data: signUpData, reset: resetSignUpData }] = useSignUpMutation({
         fixedCacheKey: "shared-sign-up-data",
     });
 
     const handleLogout = () => {
+        resetSignInData();
+        resetSignUpData();
         localStorageService.reset();
     };
     const [isMenuOpen, setIsMenuOpen] = useState(false);
