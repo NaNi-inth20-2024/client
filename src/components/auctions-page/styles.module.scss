@@ -30,6 +30,37 @@
     gap: 20px;
 }
 
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 40px;
+
+    span {
+        content: "";
+        display: block;
+        width: 50px;
+        height: 50px;
+        border: 5px solid transparent;
+        border-top: 5px solid v.$color-purple;
+        border-radius: 50%;
+        animation: spin 2s linear infinite;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+
 @media screen and (max-width: 768px) {
     .auctionsContainer__tools {
         flex-direction: column;

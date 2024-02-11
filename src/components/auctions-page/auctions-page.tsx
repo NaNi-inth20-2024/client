@@ -33,7 +33,7 @@ const mapAuctionsFiltersToQueryNames: (
 const AuctionsPage: FC = () => {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
     const [compiledFilters, setCompiledFilters] = useState<string>("");
-    const { data: auctions } = useGetAuctionsQuery(compiledFilters);
+    const { data: auctions, isLoading } = useGetAuctionsQuery(compiledFilters);
 
     const [activeFilters, setActiveFilters] = useState<Filters>({
         priceFrom: null,
@@ -77,7 +77,13 @@ const AuctionsPage: FC = () => {
                         onApplyFilters={handleFiltersApplication}
                         device="mobile"
                     />
-                    <Auctions auctions={auctions || []} />
+                    {isLoading ? (
+                        <div className={styles.loader}>
+                            <span></span>
+                        </div>
+                    ) : (
+                        <Auctions auctions={auctions || []} />
+                    )}
                 </div>
             </div>
             <Modal
