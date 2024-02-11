@@ -3,17 +3,17 @@ import styles from "./styles.module.scss";
 
 type Props = {
     name: string;
-    onClick: () => void;
-    width?: number | string;
-    height?: number | string;
+    type?: "button" | "submit" | "reset";
+    onClick?: () => void;
+    classname?: string;
 };
 
-const Button: FC<Props> = ({ name, onClick, width, height }) => (
+const Button: FC<Props> = ({ classname, name, type, onClick }) => (
     <button
-        className={styles.button}
+        className={`${styles.button} ${classname && classname}`}
         name={name}
+        type={type}
         onClick={onClick}
-        style={{ width, height }}
     >
         {name}
     </button>

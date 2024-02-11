@@ -1,5 +1,16 @@
+@use "src/styles/variables" as v;
+
 .button {
-    outline: none;
     text-align: center;
-    align-items: center;
+
+    background-color: v.$color-purple;
+    border-radius: 5px;
+    font-weight: bold;
+    padding: 10px;
+
+    white-space: nowrap;
+}
+
+.authSubmitButton {
+    width: 100%;
 }
