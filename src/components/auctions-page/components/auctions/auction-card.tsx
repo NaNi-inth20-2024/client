@@ -2,6 +2,7 @@ import { API } from "@/common/enums/api.enum";
 import { Auction } from "../../../../common/types/types";
 
 import styles from "./styles.module.scss";
+import { Link, NavLink } from "react-router-dom";
 
 type Props = {
     auction: Auction;
@@ -21,7 +22,11 @@ const AuctionCard = ({ auction }: Props) => {
                     alt={auction.title}
                 />
             )}
-            <span className={styles.auctionCard__name}>{auction.title}</span>
+            <span className={styles.auctionCard__name}>
+                <Link to={`/auction/${auction.id}`}>
+                    {auction.title}
+                </Link>
+            </span>
             <span>{auction.initial_price} $</span>
         </div>
     );

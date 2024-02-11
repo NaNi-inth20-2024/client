@@ -6,13 +6,24 @@ import ImageScroller from "./components/image-scroller/image-scroller";
 import InfoHistory from "./components/info-history/info-history";
 
 import styles from "./styles.module.scss";
-import { Bid } from "@/common/types/bid.type";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { addBid, replaceBids } from "@/store/bid/bid.slice";
+import { useParams } from "react-router-dom";
+import { useGetAuctionByIdQuery } from "@/store/auctions.api";
+import { API } from "@/common/enums/api.enum";
 
 const SingleAuctionPage = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isPlaceBidModalOpen, setIsPlaceBidModalOpen] = useState(false);
+
+    const params = useParams();
+
+    const {
+        data: auction,
+        isLoading,
+        isError,
+        isSuccess,
+    } = useGetAuctionByIdQuery(Number(params.id));
 
     const dispatch = useAppDispatch();
 
@@ -21,7 +32,7 @@ const SingleAuctionPage = () => {
 
     useEffect(() => {
         ws.current = new WebSocket(
-            "ws://20.82.148.177/api/v1/ws/auctions/6/bids/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjY5Mzk5LCJpYXQiOjE3MDc2NjQ1OTksImp0aSI6IjEyMWQ3NThhYTllZjQ2NjJiZGJhNjJmZGEzOGE3ODJjIiwidXNlcl9pZCI6NH0.evNVQRkZlhGt_rcHSPL79DxAi21ZyW0yVoeGtIqAung",
+            `ws://20.82.148.177:8000/api/v1/ws/auctions/${params.id}/bids/?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4MjY5Mzk5LCJpYXQiOjE3MDc2NjQ1OTksImp0aSI6IjEyMWQ3NThhYTllZjQ2NjJiZGJhNjJmZGEzOGE3ODJjIiwidXNlcl9pZCI6NH0.evNVQRkZlhGt_rcHSPL79DxAi21ZyW0yVoeGtIqAung`,
         );
 
         ws.current.onopen = () => {
@@ -30,6 +41,10 @@ const SingleAuctionPage = () => {
 
         ws.current.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            if (data.status_code === 409) {
+                console.log(data.detail);
+                return;
+            }
             if (data.results) {
                 dispatch(replaceBids(data.results));
             } else {
@@ -47,33 +62,18 @@ const SingleAuctionPage = () => {
             <div className={styles.singleAuctionPage}>
                 <div className={styles.auction__info}>
                     <ImageScroller
-                        images={[
-                            "https://via.placeholder.com/200x200?text=Image+1",
-                            "https://via.placeholder.com/200x200?text=Image+2",
-                            "https://via.placeholder.com/200x200?text=Image+3",
-                            "https://via.placeholder.com/200x200?text=Image+4",
-                            "https://via.placeholder.com/200x200?text=Image+5",
-                            "https://via.placeholder.com/200x200?text=Image+6",
-                            "https://via.placeholder.com/200x200?text=Image+7",
-                            "https://via.placeholder.com/200x200?text=Image+8",
-                            "https://via.placeholder.com/200x200?text=Image+9",
-                            "https://via.placeholder.com/200x200?text=Image+10",
-                        ]}
+                        images={auction?.images.map((image) => `${API.MEDIA_URL}${image.photo}`) || []}
                     />
                     <div className={styles.auction__infoDetails}>
                         <div className={styles.auction__infoDetailsHeader}>
-                            <h2>Product name</h2>
+                            <h2>{auction?.title}</h2>
                             <span>Current price: $100</span>
                         </div>
                         <span className={styles.auction__infoDetailsSeller}>
-                            Seller: <span>John Doe</span>
+                            Seller: <span>{auction?.author.username}</span>
                         </span>
                         <p>
-                            Lorem, ipsum dolor sit amet consectetur adipisicing
-                            elit. Labore velit nihil repellendus expedita eum
-                            delectus optio consequuntur dignissimos ea,
-                            doloremque earum, nulla atque odio, facilis ut
-                            adipisci itaque! Aliquam, odit.
+                            {auction?.description}
                         </p>
                     </div>
                     <div className={styles.auction__infoActions}>
