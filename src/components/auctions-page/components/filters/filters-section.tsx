@@ -60,14 +60,14 @@ const FiltersSection = ({
                 >
                     <Input
                         name="dateFrom"
-                        type="date"
+                        type="datetime-local"
                         value={filters?.dateFrom ?? ""}
                         max={filters?.dateTo ?? ""}
                         onChange={filtersValueChangeHandler("dateFrom")}
                     />
                     <Input
                         name="dateTo"
-                        type="date"
+                        type="datetime-local"
                         value={filters?.dateTo ?? ""}
                         min={filters?.dateFrom ?? ""}
                         onChange={filtersValueChangeHandler("dateTo")}
@@ -75,7 +75,7 @@ const FiltersSection = ({
                 </div>
             </div>
             <Button
-                name="Apply filters"
+                name="Search"
                 onClick={onApplyFilters}
                 classname={styles.filter__button}
             />

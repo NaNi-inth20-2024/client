@@ -36,6 +36,12 @@
     border-radius: 5px;
 }
 
+.imageScroller__noImage {
+    fill: $color-white-a10;
+    width: 100px;
+    height: 100px;
+}
+
 @media screen and (max-width: 500px) {
     .imageScroller__currentImage {
         width: 200px;

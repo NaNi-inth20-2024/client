@@ -46,6 +46,18 @@
     }
 }
 
+.auctionCard__status--finished {
+    color: v.$color-red;
+}
+
+.auctionCard__status--ongoing{
+    color: v.$color-yellow;
+}
+
+.auctionCard__status--notStarted{
+    color: v.$color-green;
+}
+
 @media screen and (max-width: 768px) {
     .auctionCard {
         img {
