@@ -11,7 +11,7 @@ const ImageScroller = ({ images }: Props) => {
 
     return (
         <div className={styles["imageScroller"]}>
-            {images.length > 1 ? (
+            {images.length > 0 ? (
                 <>
                     <img
                         src={images[currentImageIndex]}

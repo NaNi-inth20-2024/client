@@ -61,9 +61,9 @@ const AuctionsPage: FC = () => {
     const [activeFilters, setActiveFilters] = useState<Filters>({
         priceFrom: null,
         priceTo: null,
-        dateFrom: null,
-        dateTo: null,
-        search: null,
+        dateFrom: "",
+        dateTo: "",
+        search: "",
     });
 
     const filtersValueChangeHandler =
@@ -114,6 +114,14 @@ const AuctionsPage: FC = () => {
         );
     };
 
+    const debounce = (func: () => void, timeout = 1000) => {
+        const timer = setTimeout(() => {
+            func();
+        }
+        , timeout);
+        return () => clearTimeout(timer);
+    };
+
     return (
         <>
             <div className={styles.auctionsPage}>
@@ -131,7 +139,9 @@ const AuctionsPage: FC = () => {
                             type="search"
                             placeholder="Search"
                             icon="search"
+                            value={activeFilters.search}
                             onChange={filtersValueChangeHandler("search")}
+                            onUpdate={debounce(handleFiltersApplication)}
                         />
                         {userData?.username && (
                             <Button
@@ -225,7 +235,11 @@ const AuctionsPage: FC = () => {
                         />
                     </label>
 
-                    <Button name="Create" onClick={handleAuctionCreation} classname={styles.createButton} />
+                    <Button
+                        name="Create"
+                        onClick={handleAuctionCreation}
+                        classname={styles.createButton}
+                    />
                 </div>
             </Modal>
         </>

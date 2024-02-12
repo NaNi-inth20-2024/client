@@ -17,6 +17,7 @@ type Props = {
             | React.ChangeEvent<HTMLTextAreaElement>,
     ) => void;
     istextArea?: boolean;
+    onUpdate?: () => void;
 };
 
 const Input: React.FC<Props> = ({
@@ -30,7 +31,14 @@ const Input: React.FC<Props> = ({
     max,
     onChange,
     istextArea,
+    onUpdate,
 }: Props) => {
+
+    const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onChange && onChange(e);
+        onUpdate && onUpdate();
+    }
+
     return (
         <div
             className={`${styles.inputContainer} ${className ? className : ""}`}
@@ -47,7 +55,7 @@ const Input: React.FC<Props> = ({
                     type={type}
                     name={name}
                     placeholder={placeholder}
-                    onChange={onChange}
+                    onChange={handleUpdate}
                     value={value}
                     min={min}
                     max={max}
