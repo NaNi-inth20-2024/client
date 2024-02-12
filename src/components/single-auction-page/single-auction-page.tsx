@@ -71,6 +71,9 @@ const SingleAuctionPage = () => {
                 dispatch(replaceBids(data.results));
                 dispatch(replaceTopBids(data.highest_bids));
             } else {
+                if (data.finished) {
+                    return;
+                }
                 dispatch(addBid(data));
                 dispatch(addTopBid(data));
             }
